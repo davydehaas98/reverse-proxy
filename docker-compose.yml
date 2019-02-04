@@ -1,6 +1,8 @@
+version: '2'
+
 services:
   reverseproxy:
-    image: nginx:latest
+    image: reverseproxy
     ports:
       - 80:80
     restart: always

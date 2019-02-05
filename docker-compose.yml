@@ -1,9 +1,9 @@
 version: '2'
 
 services:
-  reverseproxy:
-    image: reverseproxy
+  reverse-proxy:
+    image: reverse-proxy
     ports:
       - 80:80
     restart: always
-    container_name: reverseproxy
+    container_name: reverse-proxy

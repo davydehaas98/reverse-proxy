@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
-ADD cert.pem /etc/nginx/nginx.conf.d/cert.pem
-ADD key.pem /etc/nginx/nginx.conf.d/key.pem
+RUN sudo openssl req -subj '/CN=localhost' -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
+
 RUN update-ca-certificates

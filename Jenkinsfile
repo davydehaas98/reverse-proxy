@@ -19,10 +19,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        sh 'docker build -t reverse-proxy .'
-        sh 'docker rm -f reverse-proxy || true'
         sh 'docker-compose up -d'
-        sh 'docker image prune -f'
       }
     }
   }

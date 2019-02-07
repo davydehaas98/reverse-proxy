@@ -13,13 +13,13 @@ pipeline {
   stages {
     stage('Verify Tools') {
       steps {
-        sh 'docker --version'
-        sh 'which docker'
+        sh 'docker-compose --version'
+        sh 'which docker-compose'
       }
     }
     stage('Deploy') {
       steps {
-        sh 'docker-compose up -d'
+        sh 'docker-compose up -d --force-recreate'
       }
     }
   }

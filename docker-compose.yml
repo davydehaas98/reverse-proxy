@@ -2,6 +2,7 @@ version: '3'
 services:
   reverse-proxy:
     build: .
+    image: reverse-proxy
     ports:
       - 80:80
       - 443:443

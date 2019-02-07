@@ -1,13 +1,13 @@
 version: '3'
 services:
   reverse-proxy:
-    build: .
+    build: . # build the container
     image: reverse-proxy
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - /etc/letsencrypt/:/etc/letsencrypt/
-    container_name: reverse-proxy
-    restart: always
+      - ./nginx.conf:/etc/nginx/nginx.conf # Pass nginx config file
+      - /etc/letsencrypt/:/etc/letsencrypt/ # Pass letsencrypt keys
+    container_name: reverse-proxy # Set container name
+    restart: always # Set restart policy

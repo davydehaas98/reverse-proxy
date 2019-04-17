@@ -1,2 +1,2 @@
 FROM nginx:latest
-COPY ./nginx.conf /etc/nginx/nginx.conf # Copy nginx config file
+COPY /etc/nginx/nginx.conf nginx.conf  # Copy nginx config file

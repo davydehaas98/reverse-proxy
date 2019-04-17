@@ -6,6 +6,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    network:
+      - host
     volumes:
       - /etc/letsencrypt/:/etc/letsencrypt/ # Pass letsencrypt keys
     container_name: reverse-proxy # Set container name

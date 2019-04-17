@@ -2,6 +2,7 @@ version: '3.6'
 services:
   reverse-proxy:
     build: . # Build the container
+      network: host
     image: reverse-proxy # Set image
     ports:
       - 80:80
@@ -10,5 +11,3 @@ services:
       - /etc/letsencrypt/:/etc/letsencrypt/ # Pass letsencrypt keys
     container_name: reverse-proxy # Set container name
     restart: always # Set restart policy
-    networks:
-      - host

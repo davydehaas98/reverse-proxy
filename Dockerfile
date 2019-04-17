@@ -1,2 +1,2 @@
 FROM nginx:latest
-COPY ./ /code
+COPY ./ /

@@ -10,4 +10,5 @@ services:
       - /etc/letsencrypt/:/etc/letsencrypt/ # Pass letsencrypt keys
     container_name: reverse-proxy # Set container name
     restart: always # Set restart policy
-    networks: host
+    networks:
+      - host

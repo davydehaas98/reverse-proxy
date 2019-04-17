@@ -19,6 +19,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
+      sh '.'
         sh 'docker build -t reverse-proxy .'
         sh 'docker-compose up -d --force-recreate'
       }
@@ -26,7 +27,7 @@ pipeline {
   }
   post {
     always {
-      cleanWs()
+      //cleanWs()
     }
   }
 

@@ -11,7 +11,7 @@ pipeline {
     )
   }
   stages {
-    stage('Verify Tools') {
+    stage('Verify') {
       steps {
         sh 'docker-compose --version'
         sh 'which docker-compose'
@@ -28,5 +28,4 @@ pipeline {
       cleanWs()
     }
   }
-
 }

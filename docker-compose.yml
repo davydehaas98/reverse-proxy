@@ -3,8 +3,8 @@ services:
   reverse-proxy:
     container_name: reverse-proxy # Set container name
     image: reverse-proxy # Set image
-    build:
-      network: host
+    build: .
+    network: host
     restart: always # Set restart policy
     ports:
       - 80:80

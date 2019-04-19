@@ -5,6 +5,7 @@ services:
     image: reverse-proxy # Set image
     build: .
     restart: unless-stopped # Set restart policy
+    network_mode: host
     ports:
       - "80:80"
       - "443:443"

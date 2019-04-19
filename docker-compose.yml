@@ -4,9 +4,9 @@ services:
     container_name: reverse-proxy # Set container name
     image: reverse-proxy # Set image
     build: .
-    restart: always # Set restart policy
+    restart: unless-stopped # Set restart policy
     ports:
       - 80:80
       - 443:443
-    volumes:
+    secrets:
       - /etc/letsencrypt/:/etc/letsencrypt/ # Pass letsencrypt keys

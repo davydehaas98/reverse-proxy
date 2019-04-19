@@ -5,9 +5,14 @@ services:
     image: reverse-proxy # Set image
     build: .
     restart: unless-stopped # Set restart policy
-    network_mode: host
+    networks:
+      - outside
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
       - /etc/letsencrypt/:/etc/letsencrypt/ # Pass letsencrypt keys
+
+networks:
+  outside:
+    external: true

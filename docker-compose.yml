@@ -10,6 +10,6 @@ services:
       - 443:443
     secrets:
       - certificates # Pass letsencrypt keys
-secrests:
+secrets:
   certificates:
     file: ./etc/letsencrypt/

@@ -12,4 +12,4 @@ services:
       - certificates # Pass letsencrypt keys
 secrets:
   certificates:
-    file: ./etc/letsencrypt/
+    file: ./etc/letsencrypt:/etc/letsencrypt

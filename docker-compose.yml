@@ -10,4 +10,4 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/letsencrypt/:/certificates/ # Pass letsencrypt keys
+      - /etc/letsencrypt/live/:/certs/ # Pass letsencrypt keys

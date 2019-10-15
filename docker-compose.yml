@@ -11,4 +11,4 @@ services:
       - "443:443"
     volumes:
       #- /etc/letsencrypt:/certs # Pass letsencrypt keys
-      - /root/.acme.sh/:/certs
+      - /root/.acme.sh:/certs

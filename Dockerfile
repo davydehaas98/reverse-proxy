@@ -1,3 +1,3 @@
 FROM nginx:latest
 ADD ./nginx.conf /etc/nginx/nginx.conf
-ADD ./proxy-headers.conf /etc/nginx/nginx-headers.conf
+ADD ./proxy-headers.conf /etc/nginx/proxy-headers.conf

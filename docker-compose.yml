@@ -2,7 +2,7 @@ version: '3.6'
 services:
   reverse-proxy:
     container_name: reverse-proxy # Set container name
-    image: reverse-proxy # Set image
+    image: davydehaas98/reverse-proxy:latest # Set image
     build: .
     restart: unless-stopped # Set restart policy
     network_mode: host

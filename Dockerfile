@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM fholzer/docker-nginx-brotli
 
 ADD ./nginx.conf /etc/nginx/nginx.conf
 

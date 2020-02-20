@@ -12,7 +12,7 @@ jobs:
     - name: Git Checkout
       uses: actions/checkout@v2
     - name: Docker Login
-      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }} --password-stdin
     - name: Build Docker Image
       run: docker build -t reverse-proxy .
     - name: Tags

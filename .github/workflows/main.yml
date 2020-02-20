@@ -17,9 +17,9 @@ jobs:
       run: docker build -t reverse-proxy .
     - name: Tags
       run: |
-        docker tag reverse-proxy ${{ DOCKER_USER }}/reverse-proxy:${{ github.sha }}
-        docker tag reverse-proxy ${{ DOCKER_USER }}/reverse-proxy:latest
+        docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
+        docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:latest
     - name: Push
       run: |
-        docker push ${{ DOCKER_USER }}/reverse-proxy:${{ github.sha }}
-        docker push ${{ DOCKER_USER }}/reverse-proxy:latest
+        docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:latest

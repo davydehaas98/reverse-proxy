@@ -1,14 +1,13 @@
-version: '3.6'
+version: "3.7"
 services:
   reverse-proxy:
-    container_name: reverse-proxy # Set container name
-    image: davydehaas98/reverse-proxy:latest # Set image
+    container_name: reverse-proxy
+    image: davydehaas98/reverse-proxy:latest
     build: .
     restart: unless-stopped # Set restart policy
-    network_mode: host
+    network_mode: host # https://docs.docker.com/network/host/
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /root/.acme.sh:/certs # Pass SSL certificates
-      #- /etc/letsencrypt:/certs # Pass letsencrypt keys
+      - /root/.acme.sh:/etc/ssl # Pass SSL certificates

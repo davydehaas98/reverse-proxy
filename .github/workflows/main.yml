@@ -9,26 +9,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Git Checkout
+      - name: Git checkout
         uses: actions/checkout@v2
       - name: Build docker-compose
         run: docker-compose -f docker-compose.yml up -d
+      - name: Check docker container
+        run: docker inspect reverse-proxy --format="{{.State.ExitCode}}"
       
   delivery:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Git Checkout
+    - name: Git checkout
       uses: actions/checkout@v2
-    - name: Docker Login
+    - name: Docker login
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-    - name: Build Docker Image
+    - name: Build Docker image
       run: docker build -t reverse-proxy .
-    - name: Tags
+    - name: Tag Docker image
       run: |
         docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
         docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:latest
-    - name: Push
+    - name: Push Docker image
       run: |
         docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
         docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:latest

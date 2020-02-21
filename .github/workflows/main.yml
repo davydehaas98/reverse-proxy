@@ -12,7 +12,7 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v2
       - name: Build docker-compose
-        run: docker-compose up -d -f docker-compose.yml
+        run: docker-compose -f docker-compose.yml up -d
       
   delivery:
     needs: build

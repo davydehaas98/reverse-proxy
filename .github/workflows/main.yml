@@ -13,9 +13,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Build docker-compose
         run: docker-compose -f docker-compose.yml up -d
-      - name: Check docker container
+      - name: Get Docker container status
         run: docker inspect reverse-proxy --format="{{.State.ExitCode}}"
-      
+        id: exitcode
+      - name: Exit workflow
+        if: ${{ steps.exitcode }}
+        
+        
+        
   delivery:
     needs: build
     runs-on: ubuntu-latest

@@ -6,6 +6,17 @@ on:
       - master
 
 jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os}}
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Build docker-compose
+        run: docker-compose -f docker-compose.yml -d up
+      
   delivery:
     runs-on: ubuntu-latest
     steps:

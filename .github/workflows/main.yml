@@ -17,7 +17,8 @@ jobs:
         run: echo "::set-output name=exitcode::{docker inspect reverse-proxy --format="{{.State.ExitCode}}"}
         id: exitcode
       - name: Exit workflow
-        if: ${{ exitcode }} > 0; then exit 1
+        if: ${{ exitcode }} > 0
+        run: exit 1
   delivery:
     needs: build
     runs-on: ubuntu-latest

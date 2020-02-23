@@ -1,10 +1,8 @@
 name: CI/CD
-
 on:
   push:
     branches:
       - master
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,14 +14,10 @@ jobs:
       - name: Docker logs
         run: docker logs reverse-proxy
       - name: Get Docker container status
-        run: docker inspect reverse-proxy --format="{{.State.ExitCode}}"
+        run: echo "::set-output name=exitcode::{docker inspect reverse-proxy --format="{{.State.ExitCode}}"}
         id: exitcode
       - name: Exit workflow
-        if: ${{ steps.exitcode }} > 0
-        run: "false"
-        
-        
-        
+        if: ${{ exitcode }} > 0; then exit 1
   delivery:
     needs: build
     runs-on: ubuntu-latest

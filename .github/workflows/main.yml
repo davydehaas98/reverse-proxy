@@ -15,9 +15,8 @@ jobs:
         run: docker logs reverse-proxy
       - name: Get Docker container status
         run: echo "::set-output name=exitcode::{docker inspect reverse-proxy --format="{{.State.ExitCode}}"}
-        id: exitcode
       - name: Exit workflow
-        if: ${{ exitcode }} > 0
+        if: ${{ env.exitcode }} > 0
         run: exit 1
   delivery:
     needs: build

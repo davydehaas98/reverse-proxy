@@ -1,3 +1,3 @@
-FROM fholzer/nginx-brotli
+FROM nginx:latest
 
 COPY ./config /etc/nginx

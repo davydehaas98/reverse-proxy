@@ -1,3 +1,3 @@
-FROM nginx:latest
+FROM nginx:alpine
 
 COPY ./config /etc/nginx

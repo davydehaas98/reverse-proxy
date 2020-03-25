@@ -22,17 +22,17 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Git checkout
-      uses: actions/checkout@v2
-    - name: Docker login
-      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-    - name: Build Docker image
-      run: docker build -t reverse-proxy .
-    - name: Tag Docker image
-      run: |
-        docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
-        docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:latest
-    - name: Push Docker image
-      run: |
-        docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
-        docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:latest
+      - name: Git checkout
+        uses: actions/checkout@v2
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Build Docker image
+        run: docker build -t reverse-proxy .
+      - name: Tag Docker image
+        run: |
+          docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
+          docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:latest
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:latest

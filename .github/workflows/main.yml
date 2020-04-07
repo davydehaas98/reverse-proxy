@@ -5,7 +5,7 @@ on:
       - master
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
@@ -14,13 +14,13 @@ jobs:
       - name: Docker logs
         run: docker logs reverse-proxy
       - name: Get Docker container status
-        run: docker inspect reverse-proxy --format="{{.State.ExitCode}}"
+        run: echo ${docker inspect reverse-proxy --format="{{.State.ExitCode}}"}
 #       - name: Exit workflow
 #         if: ${{ env.exitcode }} > 0
 #         run: exit 1
   delivery:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: Git checkout
         uses: actions/checkout@v2

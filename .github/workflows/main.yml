@@ -11,9 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build docker-compose
         run: docker-compose -f docker-compose.yml up -d
-      - name: Docker logs
-        run: docker logs reverse-proxy
-      - name: Get Docker container status
+      - name: Check Docker container status
         run: echo docker inspect reverse-proxy --format="{{.State.ExitCode}}"
   delivery:
     needs: build
@@ -24,12 +22,12 @@ jobs:
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Build Docker image
-        run: docker build -t reverse-proxy .
+        run: docker build -t ${{ secrets.REPOSITORY_NAME }} .
       - name: Tag Docker image
         run: |
-          docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
-          docker tag reverse-proxy ${{ secrets.DOCKER_USER }}/reverse-proxy:latest
+          docker tag ${{ secrets.REPOSITORY_NAME }} ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
+          docker tag ${{ secrets.REPOSITORY_NAME }} ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USER }}/reverse-proxy:latest
+          docker push ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest

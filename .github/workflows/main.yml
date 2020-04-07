@@ -15,9 +15,6 @@ jobs:
         run: docker logs reverse-proxy
       - name: Get Docker container status
         run: echo docker inspect reverse-proxy --format="{{.State.ExitCode}}"
-#       - name: Exit workflow
-#         if: ${{ env.exitcode }} > 0
-#         run: exit 1
   delivery:
     needs: build
     runs-on: ubuntu-18.04

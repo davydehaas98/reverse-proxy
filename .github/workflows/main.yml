@@ -17,16 +17,12 @@ jobs:
     needs: build
     runs-on: ubuntu-18.04
     steps:
-      - name: Git checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Build Docker image
-        run: docker build -t ${{ secrets.REPOSITORY_NAME }} .
-      - name: Tag Docker image
-        run: |
-          docker tag ${{ secrets.REPOSITORY_NAME }} ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
-          docker tag ${{ secrets.REPOSITORY_NAME }} ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest
+        run: docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }} \
+             -t ${{ secrets.REPOSITORY_NAME }} ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest .
       - name: Push Docker image
         run: |
           docker push ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}

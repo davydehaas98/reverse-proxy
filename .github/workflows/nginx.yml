@@ -18,14 +18,12 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: Docker login
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      - name: Build Docker image
-        
-        run: docker build &&
-             -t ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }} &&
-             -t ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest .
-      - name: Push Docker image
+      - name: Publish Docker image
+        env:
+          CONTAINER_IMAGE: ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
+          CONTAINER_IMAGE_LATEST: ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest
         run: |
-          docker push ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }} 
+          docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
+          docker push $CONTAINER_IMAGE
+          docker push $CONTAINER_IMAGE_LATEST

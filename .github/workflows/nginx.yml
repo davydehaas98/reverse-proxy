@@ -21,7 +21,10 @@ jobs:
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }} -t ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest .
+        
+        run: docker build &&
+             -t ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }} &&
+             -t ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest .
       - name: Push Docker image
         run: |
           docker push ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}

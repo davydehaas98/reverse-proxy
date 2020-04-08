@@ -9,11 +9,11 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
-      - name: Build docker-compose
+      - name: Build Docker container
         run: docker-compose -f docker-compose.yml up -d
-      - name: Check Docker container status
+      - name: Inspect Docker container
         run: echo docker inspect reverse-proxy --format="{{.State.ExitCode}}"
-  delivery:
+  deliver:
     needs: build
     runs-on: ubuntu-18.04
     steps:

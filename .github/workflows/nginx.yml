@@ -7,6 +7,7 @@ on:
 env:
   DOCKER_NAMESPACE: davydehaas98
   DOCKER_REPOSITORY: reverse-proxy
+  TARGET_DIRECTORY: ./docker/reverse-proxy
 
 jobs:
   deliver:
@@ -16,8 +17,8 @@ jobs:
     - name: Publish Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }} 
-        docker build -t ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:latest .
-        docker push ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:latest
+        docker build -t ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }} .
+        docker push ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
@@ -31,7 +32,7 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         source: "docker-compose.yml"
-        target: "/docker/reverse-proxy"
+        target: ${{ env.TARGET_DIRECTORY }}
     - name: SSH | Start container
       uses: appleboy/ssh-action@master
       with:
@@ -40,7 +41,7 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          cd ./docker/reverse-proxy
-          docker-compose pull
+          cd ${{ env.TARGET_DIRECTORY }}
+          docker-compose pull ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
           docker-compose up -d --remove-orphans
-          docker image prune -y
+          docker image prune

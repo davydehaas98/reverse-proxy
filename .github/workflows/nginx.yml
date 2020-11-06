@@ -2,43 +2,44 @@ name: NGINX reverse proxy
 on:
   push:
     branches:
-      - master
+    - master
+  env:
+    DOCKER_NAMESPACE: davydehaas98
+    DOCKER_REPOSITORY: reverse-proxy
+
 jobs:
   deliver:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Publish Docker image
-        env:
-          CONTAINER_IMAGE: ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.sha }}
-          CONTAINER_IMAGE_LATEST: ${{ secrets.DOCKER_USER }}/${{ secrets.REPOSITORY_NAME }}:latest
-        run: |
-          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }} 
-          docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
-          docker push $CONTAINER_IMAGE
-          docker push $CONTAINER_IMAGE_LATEST
+    - uses: actions/checkout@v2
+    - name: Publish Docker image
+      run: |
+        docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }} 
+        docker build -t ${{ secrets.DOCKER_NAMESPACE }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }} .
+        docker push ${{ secrets.DOCKER_NAMESPACE }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: SSH SCP
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "docker-compose.yml"
-          target: "/docker/reverse-proxy"
-      - name: SSH execute command
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            docker stop reverse-proxy
-            docker container rm reverse-proxy
-            docker-compose -f ./docker/reverse-proxy/docker-compose.yml up -d
+    - uses: actions/checkout@v2
+    - name: SSH SCP | Copy docker-compose.yml
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        source: "docker-compose.yml"
+        target: "/docker/reverse-proxy"
+    - name: SSH | Start container
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          docker stop reverse-proxy
+          docker container rm reverse-proxy
+          docker-compose -f ./docker/reverse-proxy/docker-compose.yml up -d \
+            --build ${{ secrets.DOCKER_NAMESPACE }}/${{ secrets.DOCKER_REPOSITORY }}:${{ github.sha }}

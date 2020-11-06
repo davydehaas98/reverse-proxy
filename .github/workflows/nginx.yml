@@ -5,7 +5,7 @@ on:
     - master
 
 env:
-  DOCKER_NAMESPACE: davydehaas98
+  DOCKER_IMAGE: davydehaas98/reverse-proxy:${{ github.sha }}
   DOCKER_REPOSITORY: reverse-proxy
   TAG: ${{ github.sha }}
   TARGET_DIRECTORY: ./docker/reverse-proxy
@@ -18,8 +18,8 @@ jobs:
     - name: Publish Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-        docker build -t ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ env.TAG }} .
-        docker push ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ env.TAG }}
+        docker build -t ${{ env.DOCKER_IMAGE }} .
+        docker push ${{ env.DOCKER_IMAGE }}
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
@@ -43,6 +43,6 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          docker-compose pull ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ env.TAG }}
+          docker-compose pull ${{ env.DOCKER_IMAGE }}
           docker-compose up -d --remove-orphans
           docker image prune --force

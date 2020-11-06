@@ -41,7 +41,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}
+          echo '${{ env.DOCKER_IMAGE }}' > .env
           docker-compose down --rmi all
           docker-compose up -d
           docker image prune --force

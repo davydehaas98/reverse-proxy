@@ -16,8 +16,8 @@ jobs:
     - name: Publish Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }} 
-        docker build -t ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }} .
-        docker push ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
+        docker build -t ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:latest .
+        docker push ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:latest
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
@@ -40,7 +40,6 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          docker stop reverse-proxy
-          docker container rm reverse-proxy
-          docker-compose -f ./docker/reverse-proxy/docker-compose.yml up -d \
-            --build ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
+          docker-compose pull
+          docker-compose -f ./docker/reverse-proxy/docker-compose.yml up -d --remove-orphans
+          docker image prune

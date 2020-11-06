@@ -4,17 +4,7 @@ on:
     branches:
       - master
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v2
-      - name: Build Docker container
-        run: docker-compose -f docker-compose.yml up -d --build Dockerfile
-      - name: Inspect Docker container
-        run: echo docker inspect reverse-proxy --format="{{.State.ExitCode}}"
   deliver:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

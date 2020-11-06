@@ -48,4 +48,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          script: docker-compose -f ./docker/reverse-proxy/docker-compose.yml up -d --build
+          script: |
+            docker stop reverse-proxy
+            docker container rm reverse-proxy
+            docker-compose -f ./docker/reverse-proxy/docker-compose.yml up -d

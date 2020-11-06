@@ -3,9 +3,10 @@ on:
   push:
     branches:
     - master
-  env:
-    DOCKER_NAMESPACE: davydehaas98
-    DOCKER_REPOSITORY: reverse-proxy
+
+env:
+  DOCKER_NAMESPACE: davydehaas98
+  DOCKER_REPOSITORY: reverse-proxy
 
 jobs:
   deliver:

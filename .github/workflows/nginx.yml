@@ -5,7 +5,7 @@ on:
     - master
 
 env:
-  DOCKER_IMAGE: davydehaas98/reverse-proxy:latest
+  DOCKER_IMAGE: davydehaas98/reverse-proxy:${{ github.sha }}
   TARGET_DIRECTORY: ./docker/reverse-proxy
 
 jobs:
@@ -41,6 +41,6 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          docker-compose pull ${{ env.DOCKER_IMAGE }}
-          docker-compose up -d --remove-orphans
+          docker-compose down
+          docker-compose up -d
           docker image prune --force

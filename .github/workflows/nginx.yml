@@ -44,4 +44,4 @@ jobs:
           cd ${{ env.TARGET_DIRECTORY }}
           docker-compose pull ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
           docker-compose up -d --remove-orphans
-          docker image prune
+          docker image prune --force

@@ -32,14 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: SSH
-        run: |
-          scp docker-compose.yml ${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_HOST }}:/test/docker-compose.reverse-proxy.yml
-#         uses: appleboy/scp-action@master
-#         with:
-#           host: ${{ secrets.SSH_HOST }}
-#           username: ${{ secrets.SSH_USERNAME }}
-#           password: ${{ secrets.SSH_PASSWORD }}
-#           port: ${{ secrets.SSH_PORT }}
-#           source: "docker-compose.yml"
-#           target: "test"
+      - name: SSH SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "docker-compose.yml"
+          target: "test"

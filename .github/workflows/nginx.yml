@@ -7,6 +7,7 @@ on:
 env:
   DOCKER_NAMESPACE: davydehaas98
   DOCKER_REPOSITORY: reverse-proxy
+  TAG: ${{ github.sha }}
   TARGET_DIRECTORY: ./docker/reverse-proxy
 
 jobs:
@@ -16,9 +17,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Publish Docker image
       run: |
-        docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }} 
-        docker build -t ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }} .
-        docker push ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
+        docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+        docker build -t ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ env.TAG }} .
+        docker push ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ env.TAG }}
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
@@ -42,6 +43,6 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          docker-compose pull ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
+          docker-compose pull ${{ env.DOCKER_NAMESPACE }}/${{ env.DOCKER_REPOSITORY }}:${{ env.TAG }}
           docker-compose up -d --remove-orphans
           docker image prune --force

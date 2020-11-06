@@ -5,9 +5,7 @@ on:
     - master
 
 env:
-  DOCKER_IMAGE: davydehaas98/reverse-proxy:${{ github.sha }}
-  DOCKER_REPOSITORY: reverse-proxy
-  TAG: ${{ github.sha }}
+  DOCKER_IMAGE: davydehaas98/reverse-proxy:latest
   TARGET_DIRECTORY: ./docker/reverse-proxy
 
 jobs:

@@ -11,16 +11,6 @@ env:
   TARGET_DIRECTORY: ./docker/reverse-proxy
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build container
-      run: |
-        docker build -t ${{ env.DOCKER_CONTAINER }} .
-        docker-compose -f docker-compose.yml up -d --build
-    - name: Inspect Docker container
-      run: echo docker inspect ${{ env.DOCKER_CONTAINER }} --format="{{.State.ExitCode}}"
   deliver:
     runs-on: ubuntu-latest
     steps:
@@ -58,3 +48,4 @@ jobs:
           echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env
           docker-compose up -d
           docker image prune --force
+          echo docker inspect ${{ env.DOCKER_CONTAINER }} --format="{{.State.ExitCode}}"

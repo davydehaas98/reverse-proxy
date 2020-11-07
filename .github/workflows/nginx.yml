@@ -5,7 +5,8 @@ on:
     - master
 
 env:
-  DOCKER_IMAGE: davydehaas98/reverse-proxy:${{ github.sha }}
+  DOCKER_IMAGE: davydehaas98/reverse-proxy
+  DOCKER_TAG: ${{ github.sha }}
   TARGET_DIRECTORY: ./docker/reverse-proxy
 
 jobs:
@@ -16,8 +17,8 @@ jobs:
     - name: Publish Docker image
       run: |
         docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-        docker build -t ${{ env.DOCKER_IMAGE }} .
-        docker push ${{ env.DOCKER_IMAGE }}
+        docker build -t ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} .
+        docker push ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG}}
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
@@ -41,7 +42,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}' > .env
-          docker-compose down --rmi all
+          echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env
+          docker-compose down --rmi $(docker images | grep '${{ env.DOCKER_IMAGE }}')
           docker-compose up -d
           docker image prune --force

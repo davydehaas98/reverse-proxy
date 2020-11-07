@@ -45,5 +45,5 @@ jobs:
           cd ${{ env.TARGET_DIRECTORY }}
           echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env
           docker-compose down
-          docker-compose up -d
           docker rmi $(docker images | grep '${{ env.DOCKER_IMAGE }}')
+          docker-compose up -d

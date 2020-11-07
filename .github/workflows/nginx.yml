@@ -18,7 +18,7 @@ jobs:
     - name: Build container
       run: |
         docker build -t ${{ env.DOCKER_CONTAINER }} .
-        docker-compose -f docker-compose.yml up -d
+        docker-compose -f docker-compose.yml up -d --build
     - name: Inspect Docker container
       run: echo docker inspect ${{ env.DOCKER_CONTAINER }} --format="{{.State.ExitCode}}"
   deliver:

@@ -5,11 +5,20 @@ on:
     - master
 
 env:
+  DOCKER_CONTAINER: reverse-proxy
   DOCKER_IMAGE: davydehaas98/reverse-proxy
   DOCKER_TAG: ${{ github.sha }}
   TARGET_DIRECTORY: ./docker/reverse-proxy
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build container
+      run: docker-compose -f docker-compose.yml up -d --build
+    - name: Inspect Docker container
+      run: echo docker inspect ${{ env.DOCKER_CONTAINER }} --format="{{.State.ExitCode}}"
   deliver:
     runs-on: ubuntu-latest
     steps:

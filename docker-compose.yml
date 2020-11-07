@@ -1,6 +1,7 @@
 version: "3.7"
 services:
   reverse-proxy:
+    build: .
     container_name: reverse-proxy
     image: ${DOCKER_IMAGE}
     restart: unless-stopped # Set restart policy

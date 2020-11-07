@@ -43,9 +43,8 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
+          echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env
           docker-compose down
           docker rmi $(docker images | grep '${{ env.DOCKER_IMAGE }}')
-          echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env
           docker-compose up -d
           docker image prune --force
-          echo docker inspect ${{ env.DOCKER_CONTAINER }} --format="{{.State.ExitCode}}"

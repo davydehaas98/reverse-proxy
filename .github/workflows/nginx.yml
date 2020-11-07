@@ -16,7 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build container
-      run: docker-compose -f docker-compose.yml up -d --build .
+      run: |
+        docker-compose build
+        docker-compose -f docker-compose.yml up -d
     - name: Inspect Docker container
       run: echo docker inspect ${{ env.DOCKER_CONTAINER }} --format="{{.State.ExitCode}}"
   deliver:

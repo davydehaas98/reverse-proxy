@@ -2,7 +2,7 @@ name: NGINX reverse proxy
 on:
   push:
     branches:
-    - master
+    - main
 
 env:
   DOCKER_CONTAINER: reverse-proxy

@@ -32,7 +32,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: "docker-compose.yml"
         target: ${{ env.TARGET_DIRECTORY }}
     - name: SSH | Start container
@@ -42,7 +42,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
           echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env

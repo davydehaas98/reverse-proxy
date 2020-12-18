@@ -29,18 +29,20 @@ jobs:
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
+        port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
+        passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
         source: "docker-compose.yml"
         target: ${{ env.TARGET_DIRECTORY }}
     - name: SSH | Start container
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
+        port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
+        passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
           echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env

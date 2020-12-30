@@ -1,3 +1,7 @@
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
-ADD ./config /etc/nginx
+ADD ./etc/nginx /etc/nginx
+ADD ./var/www /var/www
+
+EXPOSE 80
+EXPOSE 443

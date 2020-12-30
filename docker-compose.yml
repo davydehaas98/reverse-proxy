@@ -9,4 +9,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - /reverse-proxy/etc/nginx:/etc/nginx # Configuration files
+      - /reverse-proxy/var/www:/var/www # Default websites
       - /root/.acme.sh:/etc/ssl # Pass SSL certificates

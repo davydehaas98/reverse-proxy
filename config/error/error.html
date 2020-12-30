@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>davydehaas.nl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--# if expr="$status = 502" -->
+      <meta http-equiv="refresh" content="2">
+    <!--# endif -->
+  </head>
+<body>
+  <!--# if expr="$status = 502" -->
+    <h1>The website is currently being updated</h1>
+    <p>This is only for a few seconds, you will be redirected shortly.</p>
+  <!--# else -->
+    <h1><!--# echo var="status" default="" --> <!--# echo var="status_text" default="Something went wrong" --></h1>
+  <!--# endif -->
+</body>
+</html>

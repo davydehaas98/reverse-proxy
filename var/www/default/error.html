@@ -4,25 +4,45 @@
         <meta charset="utf-8">
         <title>davydehaas.nl</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <!--# if expr="$status = 502" -->
         <meta http-equiv="refresh" content="2">
+        
         <!--# endif -->
     </head>
     <body>
-        <!--# if expr="$status = 502" -->
-        <h1>The website is currently being updated</h1>
-        <p>This is only for a few seconds, you will be redirected shortly.</p>
-        <!--# else -->
-        <h1><!--# echo var="status" default="" --> <!--# echo var="status_text" default="Something went wrong" --></h1>
-        <!--# endif -->
+        <div>
+            <!--# if expr="$status = 502" -->
+            <h1>The website is currently being updated.</h1>
+            <p>This is only for a few seconds, you will be redirected shortly.</p>
+            
+            <!--# else -->
+            <h1><!--# echo var="status" default="" --></h1>
+            <p> <!--# echo var="status_text" default="Something went wrong" --></p>
+            
+            <!--# endif -->
+        </div>
     </body>
 </html>
 
 <style typpe="text/css">
+html, body {
+    height: 100%;
+}
 body {
-    background-color: #000044;
+    margin: 0;
+}
+div {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    text-align: center;
+    align-items: center;
+    height: 100%;
+    background-color: #000044;
+}
+h1, p {
     color: #FFFFFF;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
 }
 </style>

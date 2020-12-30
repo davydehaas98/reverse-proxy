@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:alpine
 
 COPY ./etc/nginx /etc/nginx/
 COPY ./var/www /var/www/

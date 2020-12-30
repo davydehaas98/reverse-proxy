@@ -1,4 +1,6 @@
 body { 
-    color: #000044;
-    align-content: center;
+    background-color: #000044;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
 }

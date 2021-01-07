@@ -1,14 +1,14 @@
 version: "3.7"
 services:
   reverse-proxy:
-    container_name: reverse-proxy
     image: ${DOCKER_IMAGE}
-    restart: unless-stopped # Set restart policy
-    network_mode: host # https://docs.docker.com/network/host/
-    ports:
-      - "80:80"
-      - "443:443"
+    container_name: reverse-proxy
+    restart: unless-stopped
+    network_mode: host
     volumes:
-      # - /reverse-proxy/etc/nginx:/etc/nginx # Configuration files
-      # - /reverse-proxy/var/www:/var/www # Default websites
-      - /root/.acme.sh:/etc/ssl # Pass SSL certificates
+    # - /reverse-proxy/etc/nginx:/etc/nginx # Configuration files
+    # - /reverse-proxy/var/www:/var/www # Default websites
+    - /root/.acme.sh:/etc/ssl # Pass SSL certificates
+    ports:
+      - 80:80
+      - 443:443

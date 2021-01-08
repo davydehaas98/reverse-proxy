@@ -8,7 +8,7 @@ env:
   DOCKER_CONTAINER: reverse-proxy
   DOCKER_IMAGE: davydehaas98/reverse-proxy
   DOCKER_TAG: ${{ github.sha }}
-  TARGET_DIRECTORY: ./docker/reverse-proxy
+  TARGET_DIRECTORY: /reverse-proxy
 
 jobs:
   deliver:

@@ -8,7 +8,7 @@ env:
   DOCKER_CONTAINER: reverse-proxy
   DOCKER_IMAGE: davydehaas98/reverse-proxy
   DOCKER_TAG: ${{ github.sha }}
-  TARGET_DIRECTORY: /reverse-proxy
+  TARGET_DIRECTORY: ./docker-compose/reverse-proxy
 
 jobs:
   deliver:
@@ -46,5 +46,5 @@ jobs:
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
           echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env
-          docker-compose -f docker-compose.yml down --rmi all
+          docker-compose -f docker-compose.yml down --rmi local
           docker-compose -f docker-compose.yml up -d

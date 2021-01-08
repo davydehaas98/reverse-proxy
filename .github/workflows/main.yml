@@ -46,6 +46,6 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' >> .env
+          echo 'DOCKER_TAG=:${{ env.DOCKER_TAG }}' >> .env
           docker-compose -f docker-compose.yml down --rmi all
           docker-compose -f docker-compose.yml up -d

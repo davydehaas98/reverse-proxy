@@ -33,8 +33,9 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: "docker-compose.yml"
+        source: docker-compose.yml
         target: ${{ env.TARGET_DIRECTORY }}
+        rm: true
     - name: SSH | Start container
       uses: appleboy/ssh-action@master
       with:
@@ -45,6 +46,6 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' > .env
+          echo 'DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}' >> .env
           docker-compose -f docker-compose.yml down --rmi local
           docker-compose -f docker-compose.yml up -d

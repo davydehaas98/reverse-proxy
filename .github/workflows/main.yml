@@ -47,5 +47,5 @@ jobs:
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
           echo 'DOCKER_TAG=:${{ env.DOCKER_TAG }}' >> .env
-          docker-compose -f docker-compose.yml down --rmi all
+          docker-compose -f docker-compose.yml down
           docker-compose -f docker-compose.yml up -d

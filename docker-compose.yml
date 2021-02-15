@@ -4,7 +4,6 @@ services:
     image: davydehaas98/reverse-proxy:${DOCKER_TAG}
     container_name: reverse-proxy
     restart: unless-stopped
-    network_mode: host
     volumes:
     # - /reverse-proxy/etc/nginx:/etc/nginx # Configuration files
     # - /reverse-proxy/var/www:/var/www # Default websites

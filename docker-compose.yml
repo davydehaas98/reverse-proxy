@@ -13,9 +13,11 @@ services:
     - 443:443
     networks:
     - media-server
-    - server_default
+    - server
 networks:
   media-server:
     external: true
-  server_default:
+    name: media-server
+  server:
     external: true
+    name: server_default

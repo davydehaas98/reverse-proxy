@@ -13,12 +13,16 @@ services:
     - 443:443
     networks:
     - reverse-proxy
+    - davydehaasnl
     - media-server
     - server
 networks:
   reverse-proxy:
     driver: bridge
     name: reverse-proxy
+  davydehaasnl:
+    external: true
+    name: davydehaasnl_default
   media-server:
     external: true
     name: media-server_default

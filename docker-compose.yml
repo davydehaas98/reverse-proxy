@@ -11,10 +11,17 @@ services:
     ports:
     - 80:80
     - 443:443
+    networks:
+    - reverse-proxy
+    - media-server
+    - server
 networks:
+  reverse-proxy:
+    driver: bridge
+    name: reverse-proxy
   media-server:
     external: true
-    name: media-server
+    name: media-server_default
   server:
     external: true
     name: server_default

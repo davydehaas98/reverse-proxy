@@ -14,3 +14,8 @@ services:
     networks:
     - media-server
     - server_default
+networks:
+  media-server:
+    external: true
+  server_default:
+    external: true

@@ -9,5 +9,8 @@ services:
     # - /reverse-proxy/var/www:/var/www # Default websites
     - /root/.acme.sh:/etc/ssl # Pass SSL certificates
     ports:
-      - 80:80
-      - 443:443
+    - 80:80
+    - 443:443
+    networks:
+    - media-server
+    - server_default

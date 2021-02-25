@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Publish Docker image
       run: |
-        docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ secrets.DOCKER_GITHUB_USERNAME }} --password-stdin
         docker build -t ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} .
         docker push ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG}}
   deploy:

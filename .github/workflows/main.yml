@@ -6,7 +6,7 @@ on:
 
 env:
   DOCKER_CONTAINER: reverse-proxy
-  DOCKER_IMAGE: davydehaas98/reverse-proxy
+  DOCKER_IMAGE: docker.pkg.github.com/davydehaas98/reverse-proxy
   DOCKER_TAG: ${{ github.sha }}
   TARGET_DIRECTORY: ./docker-compose/reverse-proxy
 

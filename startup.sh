@@ -1,5 +1,2 @@
-
-echo "startup.sh" ;
+cron ; # && tail /var/log/cron.log ;
 nginx -g "daemon off;" ;
-echo "startup.sh" ;
-cron && tail -f /var/log/cron.log ;

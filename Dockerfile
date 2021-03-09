@@ -19,5 +19,5 @@ EXPOSE 443
 COPY startup.sh /startup.sh
 # Give execution rights on the shell script
 RUN chmod +x /startup.sh
-# Run the command on container startup
+# Run the startup.sh shell script on container startup
 CMD ["/startup.sh"]

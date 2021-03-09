@@ -9,11 +9,11 @@ RUN chmod 0644 /etc/cron.d/nginx-reload-cron
 RUN crontab /etc/cron.d/nginx-reload-cron
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log
-# Run the command on container startup
-CMD cron && tail -f /var/log/cron.log
 
 COPY /nginx /etc/nginx/
 COPY /html /usr/share/nginx/html/
 
 EXPOSE 80
 EXPOSE 443
+
+CMD nginx -g daemon off ; cron && tail -f /var/log/cron.log

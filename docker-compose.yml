@@ -4,6 +4,8 @@ services:
     image: ${DOCKER_IMAGE}:${DOCKER_TAG}
     container_name: reverse-proxy
     restart: unless-stopped
+    cpus: 1
+    mem_limit: 1G
     volumes:
     # - /reverse-proxy/etc/nginx:/etc/nginx # Configuration files
     # - /reverse-proxy/var/www:/var/www # Default websites

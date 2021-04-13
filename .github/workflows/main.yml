@@ -6,8 +6,8 @@ on:
 
 env:
   DOCKER_USERNAME: davydehaas98
-  DOCKER_REPOSITORY: docker.pkg.github.com/davydehaas98/reverse-proxy
-  DOCKER_IMAGE: reverse-proxy
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_IMAGE: davydehaas98/reverse-proxy
   DOCKER_TAG: main-${{ github.sha }}
   TARGET_DIRECTORY: ./docker-compose/reverse-proxy
 
@@ -20,9 +20,9 @@ jobs:
         fetch-depth: 0
     - name: Publish Docker image
       run: |
-        echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ env.DOCKER_USERNAME }} --password-stdin
-        docker build -t ${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} .
-        docker push ${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_USERNAME }} --password-stdin
+        docker build -t ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} .
+        docker push ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
@@ -51,6 +51,6 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          echo 'DOCKER_IMAGE=${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE }}' >> .env
+          echo 'DOCKER_IMAGE=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}' >> .env
           echo 'DOCKER_TAG=${{ env.DOCKER_TAG }}' >> .env
           docker-compose -f docker-compose.yml up -d

@@ -5,32 +5,21 @@ on:
     - main
 
 env:
-  DOCKER_USERNAME: davydehaas98
-  DOCKER_REGISTRY: ghcr.io
-  DOCKER_IMAGE: davydehaas98/reverse-proxy
-  DOCKER_TAG: main-${{ github.sha }}
   TARGET_DIRECTORY: ./docker-compose/reverse-proxy
+  PGID: 998
+  PUID: 997
+  TZ: "Europe/Amsterdam"
+  DOMAIN_NAME: "davydehaas.nl"
 
 jobs:
-  deliver:
+   deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Publish Docker image
-      run: |
-        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_USERNAME }} --password-stdin
-        docker build -t ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} .
-        docker push ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}
-  deploy:
-    needs: deliver
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: SSH SCP | Copy docker-compose.yml
+        rm: true
+    - name: SSH SCP | Copy container configurations
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -38,8 +27,9 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: docker-compose.yml
+        source: ./docker-compose.yml
         target: ${{ env.TARGET_DIRECTORY }}
+        strip_components: 1
         rm: true
     - name: SSH | Start container
       uses: appleboy/ssh-action@master
@@ -51,6 +41,12 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
-          echo 'DOCKER_IMAGE=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}' >> .env
-          echo 'DOCKER_TAG=${{ env.DOCKER_TAG }}' >> .env
-          docker-compose -f docker-compose.yml up -d
+          
+          echo 'PGID=${{ env.PGID }}' >> .env
+          echo 'PUID=${{ env.PUID }}' >> .env
+          echo 'TZ=${{ env.TZ }}' >> .env
+          echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
+          echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
+          echo 'CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}' >> .env
+
+          docker-compose up -d

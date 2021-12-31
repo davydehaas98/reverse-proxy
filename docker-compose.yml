@@ -17,24 +17,24 @@ services:
     - 8080:8080
     volumes:
     - /reverse-proxy/rules:/rules
-    - /var/run/docker.sock:/var/run/docker.sock:ro
     # touch /reverse-proxy/acme/acme.json
     # chmod 600 /reverse-proxy/acme/acme.json
     - /reverse-proxy/acme/acme.json:/acme.json
     - /reverse-proxy/traefik.log:/traefik.log
     - /reverse-proxy/shared:/shared
+    - /var/run/docker.sock:/var/run/docker.sock:ro
     command: # CLI arguments
     - --api.insecure=true
     - --global.checkNewVersion=true
     - --global.sendAnonymousUsage=true
     - --entryPoints.http.address=:80
     - --entryPoints.https.address=:443
-      # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
+    # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
     - --entrypoints.https.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/12,172.64.0.0/13,131.0.72.0/22
     - --entryPoints.traefik.address=:8080
     - --api=true
-#      - --api.insecure=true
-#      - --serversTransport.insecureSkipVerify=true
+    # - --api.insecure=true
+    # - --serversTransport.insecureSkipVerify=true
     - --log=true
     - --log.level=DEBUG # (Default: error) DEBUG, INFO, WARN, ERROR, FATAL, PANIC
     - --accessLog=true
@@ -48,7 +48,7 @@ services:
     - --providers.docker.network=reverse-proxy_default
     - --providers.docker.swarmMode=false
     - --providers.file.directory=/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
-#      - --providers.file.filename=/path/to/file # Load dynamic configuration from a file.
+    # - --providers.file.filename=/path/to/file # Load dynamic configuration from a file.
     - --providers.file.watch=true # Only works on top level files in the rules folder
     # - --certificatesResolvers.dns-cloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
     - --certificatesResolvers.dns-cloudflare.acme.email=$CLOUDFLARE_EMAIL
@@ -60,13 +60,12 @@ services:
     - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
     - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
     - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-    # - "traefik.http.routers.traefik.middlewares=chain-basic-auth@file"
-    - "traefik.http.routers.traefik.middlewares=chain-no-auth@file" 
+    - "traefik.http.routers.traefik.middlewares=chain-basic-auth@file"
     - "traefik.http.routers.traefik.entrypoints=https"
     - "traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)"
     - "traefik.http.routers.traefik.tls=true"
     - "traefik.http.routers.traefik.tls.certresolver=dns-cloudflare" # Comment out this line after first run of traefik to force the use of wildcard certs
     - "traefik.http.routers.traefik.tls.domains[0].main=$DOMAIN_NAME"
     - "traefik.http.routers.traefik.tls.domains[0].sans=*.$DOMAIN_NAME"
-#    - "traefik.http.routers.traefik.tls.domains[1].main=$DOMAIN_NAME_2" # Pulls main cert for second domain
-#    - "traefik.http.routers.traefik.tls.domains[1].sans=*.$DOMAIN_NAME_2" # Pulls wildcard cert for second domain
+    # - "traefik.http.routers.traefik.tls.domains[1].main=$DOMAIN_NAME_2" # Pulls main cert for second domain
+    # - "traefik.http.routers.traefik.tls.domains[1].sans=*.$DOMAIN_NAME_2" # Pulls wildcard cert for second domain

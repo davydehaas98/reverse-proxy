@@ -18,6 +18,10 @@
     [http.middlewares.middlewares-rate-limit.rateLimit]
       average = 100
       burst = 50
+      
+  [http.middlewares.middlewares-https-redirectscheme]
+    [http.middlewares.middlewares-https-redirectscheme.redirectScheme]
+      scheme = "https"
 
   [http.middlewares.middlewares-secure-headers]
     [http.middlewares.middlewares-secure-headers.headers]

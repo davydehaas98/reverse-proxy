@@ -46,6 +46,7 @@ jobs:
           echo 'PUID=${{ env.PUID }}' >> .env
           echo 'TZ=${{ env.TZ }}' >> .env
           echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
+          
           echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
           echo 'CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}' >> .env
 

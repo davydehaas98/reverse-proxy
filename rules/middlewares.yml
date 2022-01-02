@@ -17,6 +17,7 @@ http:
     middlewares-https-redirectscheme:
       redirectScheme:
         scheme: https
+        permanent: true
     middlewares-secure-headers:
       headers:
         accessControlAllowMethods:

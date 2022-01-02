@@ -17,22 +17,6 @@ http:
     middlewares-https-redirectscheme:
       redirectScheme:
         scheme: https
-    middlewares-tls:
-      tls:
-        options:
-          default:
-            minVersion: VersionTLS12
-            cipherSuites:
-            # Recommended ciphers for TLSv1.2
-            - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-            - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-            - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
-            # Recommended ciphers for TLSv1.3
-            - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
-            - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
-            - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
-          tlsv13only:
-            minVersion: VersionTLS13
     middlewares-secure-headers:
       headers:
         accessControlAllowMethods:
@@ -54,6 +38,8 @@ http:
         featurePolicy: >-
           camera 'none'; geolocation 'none'; microphone 'none'; payment 'none';
           usb 'none'; vr 'none';
+        customRequestHeaders:
+          X-Forwarded-Proto: 'https'
         customResponseHeaders:
           X-Robots-Tag: 'none,noarchive,nosnippet,notranslate,noimageindex,'
           server: ''

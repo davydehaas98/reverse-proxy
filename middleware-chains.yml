@@ -1,0 +1,41 @@
+# nano /reverse-proxy/rules/middleware-chains.yml
+http:
+  middlewares:
+    chain-no-auth:
+      chain:
+        middlewares:
+          - middlewares-rate-limit
+          - middlewares-https-redirectscheme
+          - middlewares-tls
+          - middlewares-secure-headers
+    chain-basic-auth:
+      chain:
+        middlewares:
+          - middlewares-rate-limit
+          - middlewares-https-redirectscheme
+          - middlewares-tls
+          - middlewares-secure-headers
+          - middlewares-basic-auth
+    chain-oauth:
+      chain:
+        middlewares:
+          - middlewares-rate-limit
+          - middlewares-https-redirectscheme
+          - middlewares-tls
+          - middlewares-secure-headers
+          - middlewares-oauth
+    chain-authelia:
+      chain:
+        middlewares:
+          - middlewares-rate-limit
+          - middlewares-https-redirectscheme
+          - middlewares-tls
+          - middlewares-secure-headers
+          - middlewares-authelia
+    chain-nextcloud:
+      chain:
+        middlewares:
+          - middlewares-rate-limit
+          - middlewares-https-redirectscheme
+          - nextcloud-middlewares-secure-headers
+          - nextcloud-redirect

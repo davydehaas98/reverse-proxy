@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   reverse-proxy:
-    image: traefik:v2.6
+    image: traefik:v2.5
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 1
@@ -27,7 +27,6 @@ services:
     - --api.insecure=true
     - --global.checkNewVersion=true
     - --global.sendAnonymousUsage=true
-    - --defaultentrypoints=http,https,ws,wss
     - --entryPoints.http.address=:80
     - --entryPoints.https.address=:443
     # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/

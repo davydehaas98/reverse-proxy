@@ -1,8 +1,9 @@
 name: NGINX reverse proxy
-on:
-  push:
-    branches:
-    - main
+on: 
+  workflow_dispatch
+#   push:
+#     branches:
+#     - nginx
 
 env:
   DOCKER_USERNAME: davydehaas98
@@ -10,6 +11,7 @@ env:
   DOCKER_IMAGE: davydehaas98/reverse-proxy
   DOCKER_TAG: main-${{ github.sha }}
   TARGET_DIRECTORY: ./docker-compose/reverse-proxy
+  DOMAIN_NAME: davydehaas.nl
 
 jobs:
   deliver:
@@ -51,6 +53,9 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIRECTORY }}
+          
           echo 'DOCKER_IMAGE=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}' >> .env
           echo 'DOCKER_TAG=${{ env.DOCKER_TAG }}' >> .env
+          echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
+          
           docker-compose -f docker-compose.yml up -d

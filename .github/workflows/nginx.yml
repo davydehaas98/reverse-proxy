@@ -1,9 +1,9 @@
 name: NGINX reverse proxy
 on: 
-  workflow_dispatch
 #   push:
 #     branches:
 #     - nginx
+  workflow_dispatch
 
 env:
   DOCKER_USERNAME: davydehaas98

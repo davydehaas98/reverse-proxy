@@ -1,4 +1,4 @@
-name: NGINX reverse proxy
+name: Traefik reverse proxy
 on:
   push:
     branches:

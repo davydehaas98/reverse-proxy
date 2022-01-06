@@ -13,17 +13,3 @@ services:
     ports:
     - 80:80
     - 443:443
-    networks:
-    - davydehaasnl
-    - media-server
-    - server
-networks:
-  davydehaasnl:
-    external: true
-    name: davydehaasnl_default
-  media-server:
-    external: true
-    name: media-server_default
-  server:
-    external: true
-    name: server_default

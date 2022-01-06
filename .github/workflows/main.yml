@@ -3,13 +3,18 @@ on:
   push:
     branches:
     - main
-
+    
+# Ensures that only one deploy task per branch/environment will run at a time.
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: false
+  
 env:
-  TARGET_DIRECTORY: ./docker-compose/reverse-proxy
+  TARGET_DIR: ./docker-compose/reverse-proxy
   PGID: 998
   PUID: 997
-  TZ: "Europe/Amsterdam"
-  DOMAIN_NAME: "davydehaas.nl"
+  TZ: Europe/Amsterdam
+  DOMAIN_NAME: davydehaas.nl
 
 jobs:
    deploy:
@@ -28,7 +33,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: ./docker-compose.yml
-        target: ${{ env.TARGET_DIRECTORY }}
+        target: ${{ env.TARGET_DIR }}
         strip_components: 1
         rm: true
     - name: SSH | Start container
@@ -40,7 +45,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
-          cd ${{ env.TARGET_DIRECTORY }}
+          cd ${{ env.TARGET_DIR }}
           
           echo 'PGID=${{ env.PGID }}' >> .env
           echo 'PUID=${{ env.PUID }}' >> .env

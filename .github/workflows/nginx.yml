@@ -1,16 +1,20 @@
 name: NGINX reverse proxy
 on: 
-#   push:
-#     branches:
-#     - nginx
-  workflow_dispatch
+  push:
+    branches:
+    - nginx
+
+# Ensures that only one deploy task per branch/environment will run at a time.
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   DOCKER_USERNAME: davydehaas98
   DOCKER_REGISTRY: ghcr.io
   DOCKER_IMAGE: davydehaas98/reverse-proxy
   DOCKER_TAG: main-${{ github.sha }}
-  TARGET_DIRECTORY: ./docker-compose/reverse-proxy
+  TARGET_DIR: ./docker-compose/reverse-proxy
   DOMAIN_NAME: davydehaas.nl
 
 jobs:
@@ -41,7 +45,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: docker-compose.yml
-        target: ${{ env.TARGET_DIRECTORY }}
+        target: ${{ env.TARGET_DIR }}
         rm: true
     - name: SSH | Start container
       uses: appleboy/ssh-action@master
@@ -52,7 +56,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
-          cd ${{ env.TARGET_DIRECTORY }}
+          cd ${{ env.TARGET_DIR }}
           
           echo 'DOCKER_IMAGE=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}' >> .env
           echo 'DOCKER_TAG=${{ env.DOCKER_TAG }}' >> .env

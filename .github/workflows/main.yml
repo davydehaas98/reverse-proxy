@@ -14,6 +14,7 @@ env:
   PGID: 998
   PUID: 997
   TZ: Europe/Amsterdam
+  USER_DIR: /opt/appdata/reverse-proxy
   DOMAIN_NAME: davydehaas.nl
 
 jobs:
@@ -50,6 +51,7 @@ jobs:
           echo 'PGID=${{ env.PGID }}' >> .env
           echo 'PUID=${{ env.PUID }}' >> .env
           echo 'TZ=${{ env.TZ }}' >> .env
+          echo 'USER_DIR=${{ env.USER_DIR }}' >> .env
           echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
           
           echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env

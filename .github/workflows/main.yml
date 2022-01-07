@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
   
 env:
-  TARGET_DIR: ./docker-compose/reverse-proxy
+  TARGET_DIR: /opt/compose/reverse-proxy
   PGID: 998
   PUID: 997
   TZ: Europe/Amsterdam

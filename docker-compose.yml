@@ -16,12 +16,12 @@ services:
     - 443:443
     - 8080:8080
     volumes:
-    - /reverse-proxy/rules:/rules
-    # touch /reverse-proxy/acme/acme.json
-    # chmod 600 /reverse-proxy/acme/acme.json
-    - /reverse-proxy/acme/acme.json:/acme.json
-    - /reverse-proxy/traefik.log:/traefik.log
-    - /reverse-proxy/shared:/shared
+    - ${USER_DIR}/rules:/rules
+    # touch ${USER_DIR}/acme/acme.json
+    # chmod 600 ${USER_DIR}/acme/acme.json
+    - ${USER_DIR}/acme/acme.json:/acme.json
+    - ${USER_DIR}/traefik.log:/traefik.log
+    - ${USER_DIR}/shared:/shared
     - /var/run/docker.sock:/var/run/docker.sock:ro
     command: # CLI arguments
     - --api.insecure=true

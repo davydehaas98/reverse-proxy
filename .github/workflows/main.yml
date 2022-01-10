@@ -11,8 +11,8 @@ concurrency:
   
 env:
   TARGET_DIR: /opt/compose/reverse-proxy
-  PGID: 998
-  PUID: 997
+  PGID: 1000
+  PUID: 1000
   TZ: Europe/Amsterdam
   USER_DIR: /opt/appdata/reverse-proxy
   DOMAIN_NAME: davydehaas.nl

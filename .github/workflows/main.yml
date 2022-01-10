@@ -31,8 +31,9 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        # key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: ./docker-compose.yml
         target: ${{ env.TARGET_DIR }}
         strip_components: 1
@@ -43,8 +44,9 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        # key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ${{ env.TARGET_DIR }}
           

@@ -48,7 +48,7 @@ jobs:
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: ./rules/
-        target: ${{ env.USER_DIR }}/rules
+        target: ${{ env.USER_DIR }}
         strip_components: 1
         rm: true
     - name: SSH | Start container

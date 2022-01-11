@@ -16,7 +16,7 @@ services:
     - 443:443
     - 8080:8080
     volumes:
-    - ${USER_DIR}/rules:/rules
+    - $USER_DIR/rules:/rules
     # touch ${USER_DIR}/acme/acme.json
     # chmod 600 ${USER_DIR}/acme/acme.json
     - ${USER_DIR}/acme/acme.json:/acme.json
@@ -68,3 +68,37 @@ services:
     - traefik.http.routers.traefik.tls.domains[0].sans=*.$DOMAIN_NAME
     # - "traefik.http.routers.traefik.tls.domains[1].main=$DOMAIN_NAME_2" # Pulls main cert for second domain
     # - "traefik.http.routers.traefik.tls.domains[1].sans=*.$DOMAIN_NAME_2" # Pulls wildcard cert for second domain
+    
+  # Cloudflare DDNS - Dynamic DNS Updater
+  cf-ddns:
+    image: oznu/cloudflare-ddns:latest
+    container_name: cf-ddns
+    restart: unless-stopped
+    environment:
+      - API_KEY=$CLOUDFLARE_API_TOKEN
+      - ZONE=$DOMAIN_NAME
+      - PROXIED=true
+      - RRTYPE=A
+      - DELETE_ON_STOP=false
+      - DNS_SERVER=1.1.1.1
+  # Cloudflare-Companion - Automatic CNAME DNS Creation
+  cf-companion:
+    image: tiredofit/traefik-cloudflare-companion:latest
+    container_name: cf-companion
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - TIMEZONE=$TZ
+      - TRAEFIK_VERSION=2
+      - CF_EMAIL=$CLOUDFLARE_EMAIL # Same as traefik
+      # - CF_TOKEN=$CLOUDFLARE_API_TOKEN # Scoped api token not working. Error 10000.
+      - CF_TOKEN=$CLOUDFLARE_API_KEY # Same as traefik
+      - TARGET_DOMAIN=$DOMAIN_NAME
+      - DOMAIN1=$DOMAIN_NAME
+      - DOMAIN1_ZONE_ID=$CLOUDFLARE_ZONE_ID
+      - DOMAIN1_PROXIED=TRUE
+    labels:
+      # Add hosts specified in rules here to force cf-companion to create the CNAMEs
+      # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
+      - "traefik.http.routers.cf-companion-rtr.rule=HostHeader(`pihole.$DOMAINNAME`,`hassio.$DOMAINNAME`)"

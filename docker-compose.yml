@@ -101,4 +101,4 @@ services:
     labels:
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
-      - "traefik.http.routers.cf-companion-rtr.rule=HostHeader(`pihole.$DOMAINNAME`,`hassio.$DOMAINNAME`)"
+      - "traefik.http.routers.cf-companion-rtr.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)"

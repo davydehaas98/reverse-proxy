@@ -17,11 +17,11 @@ services:
     - 8080:8080
     volumes:
     - $USER_DIR/rules:/rules
-    # touch ${USER_DIR}/acme/acme.json
-    # chmod 600 ${USER_DIR}/acme/acme.json
-    - ${USER_DIR}/acme/acme.json:/acme.json
-    - ${USER_DIR}/traefik.log:/traefik.log
-    - ${USER_DIR}/shared:/shared
+    # touch $USER_DIR/acme/acme.json
+    # chmod 600 $USER_DIR/acme/acme.json
+    - $USER_DIR/acme/acme.json:/acme.json
+    - $USER_DIR/traefik.log:/traefik.log
+    - $USER_DIR/shared:/shared
     - /var/run/docker.sock:/var/run/docker.sock:ro
     command: # CLI arguments
     - --api.insecure=true

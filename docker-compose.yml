@@ -59,7 +59,7 @@ services:
     - traefik.http.routers.http-catchall.entrypoints=http
     - traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)
     - traefik.http.routers.http-catchall.middlewares=middlewares-https-redirectscheme@file
-    - traefik.http.routers.traefik.middlewares=chain-basic-auth@file
+    - traefik.http.routers.traefik.middlewares=chain-oauth@file
     - traefik.http.routers.traefik.entrypoints=https
     - traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)
     - traefik.http.routers.traefik.tls=true
@@ -101,4 +101,37 @@ services:
     labels:
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
-      - "traefik.http.routers.cf-companion-rtr.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)"
+      - traefik.http.routers.cf-companion-rtr.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)
+  # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
+  oauth:
+    container_name: oauth
+    image: thomseddon/traefik-forward-auth:latest
+    # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - CLIENT_ID=$GOOGLE_CLIENT_ID
+      - CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+      - SECRET=$OAUTH_SECRET
+      - COOKIE_DOMAIN=$DOMAIN_NAME
+      - INSECURE_COOKIE=false
+      - AUTH_HOST=oauth.$DOMAIN_NAME
+      - URL_PATH=/_oauth
+      # - WHITELIST=$MY_EMAIL
+      - WHITELIST=$CLOUDFLARE_EMAIL
+      - LOG_LEVEL=warn
+      - LOG_FORMAT=text
+      - LIFETIME=2592000 # 30 days
+      - DEFAULT_ACTION=auth
+      - DEFAULT_PROVIDER=google
+    labels:
+      - traefik.enable=true
+      ## HTTP Routers
+      - traefik.http.routers.oauth.entrypoints=https
+      - traefik.http.routers.oauth.rule=Host(`oauth.$DOMAIN_NAME`)
+      - traefik.http.routers.oauth.tls=true
+      ## Middlewares
+      - traefik.http.routers.oauth.middlewares=chain-oauth@file
+      ## HTTP Services
+      - traefik.http.services.oauth.loadbalancer.server.port=4181

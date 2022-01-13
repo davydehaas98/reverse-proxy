@@ -23,7 +23,7 @@ services:
       - $USER_DIR/traefik.log:/traefik.log
       - $USER_DIR/shared:/shared
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      command: # CLI arguments
+    command: # CLI arguments
       - --api.insecure=true
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true

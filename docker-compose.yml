@@ -84,7 +84,7 @@ services:
       - RRTYPE=A
       - DELETE_ON_STOP=false
       - DNS_SERVER=1.1.1.1
-     labels:
+    labels:
       - com.centurylinklabs.watchtower.enable=true
       - diun.enable=true
       - diun.watch_repo=true

@@ -15,7 +15,7 @@ providers:
     network: reverse-proxy_default
     swarmMode: false
   file:
-    directory: /rules
+    directory: /config/rules
     watch: true # Only works on top level files in the rules folder
 accessLog:
   filePath: /traefik.log

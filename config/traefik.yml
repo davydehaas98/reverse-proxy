@@ -7,7 +7,6 @@ global:
   sendAnonymousUsage: true
 providers:
   docker:
-    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.$DOMAIN_NAME`)"
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     network: reverse-proxy_default
@@ -43,8 +42,7 @@ log:
 certificatesResolvers:
   cloudflare-dns-resolver:
     acme:
-      email: $CLOUDFLARE_EMAIL
-      keyType: RSA8192
+      keyType: RSA4096
       storage: acme.json
       dnsChallenge:
         provider: cloudflare
@@ -64,11 +62,6 @@ entryPoints:
     http:
       tls:
         certResolver: cloudflare-dns-resolver
-        domains:
-          - main: "$DOMAIN_NAME"
-            sans: 
-              - "traefik.$DOMAIN_NAME"
-              - "*.$DOMAIN_NAME"
     # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
     forwardedHeaders:
       trustedIPs:

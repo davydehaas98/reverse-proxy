@@ -57,6 +57,11 @@ jobs:
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
+          cd ${{ env.USER_DIR }}
+          
+          echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
+          echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
+          
           cd ${{ env.TARGET_DIR }}
           
           echo 'PGID=${{ env.PGID }}' >> .env

@@ -35,11 +35,6 @@ services:
       - traefik.http.routers.traefik.entrypoints=https
       - traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)
       - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=dns-cloudflare # Comment out this line after first run of traefik to force the use of wildcard certs
-      - traefik.http.routers.traefik.tls.domains[0].main=$DOMAIN_NAME
-      - traefik.http.routers.traefik.tls.domains[0].sans=*.$DOMAIN_NAME
-      # - "traefik.http.routers.traefik.tls.domains[1].main=$DOMAIN_NAME_2" # Pulls main cert for second domain
-      # - "traefik.http.routers.traefik.tls.domains[1].sans=*.$DOMAIN_NAME_2" # Pulls wildcard cert for second domain
       - traefik.http.routers.traefik.middlewares=chain-oauth@file
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     

@@ -10,11 +10,11 @@ concurrency:
   cancel-in-progress: false
   
 env:
-  TARGET_DIR: /opt/compose/reverse-proxy/
+  TARGET_DIR: /opt/compose/reverse-proxy
   PGID: 1000
   PUID: 1000
   TZ: Europe/Amsterdam
-  USER_DIR: /opt/appdata/reverse-proxy/
+  USER_DIR: /opt/appdata/reverse-proxy
   DOMAIN_NAME: davydehaas.nl
 
 jobs:
@@ -56,12 +56,7 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        script: |
-          cd ${{ env.USER_DIR }}
-          
-          echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
-          echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
-          
+        script: |          
           cd ${{ env.TARGET_DIR }}
           
           echo 'PGID=${{ env.PGID }}' >> .env

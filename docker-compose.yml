@@ -24,7 +24,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --configFile=/config/traefik.yml
-      - --certificatesResolver.cloudflare-dns-resolver.acme.email=$CLOUDFLARE_EMAIL
+      - --certificatesResolver.dns-resolver-cloudflare.acme.email=$CLOUDFLARE_EMAIL
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAIN_NAME`)
     labels:
       - com.centurylinklabs.watchtower.enable=true
@@ -33,10 +33,10 @@ services:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)
-      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.middlewares=chain-oauth@file
       - traefik.http.routers.traefik.tls.domains[0].main=$DOMAIN_NAME
       - traefik.http.routers.traefik.tls.domains[0].sans=*.$DOMAIN_NAME
-      - traefik.http.routers.traefik.middlewares=chain-oauth@file
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     
   # Cloudflare DDNS - Dynamic DNS Updater

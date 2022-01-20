@@ -1,6 +1,6 @@
 # https://doc.traefik.io/traefik/getting-started/configuration-overview/#the-static-configuration
 api:
-  insecure: true
+  insecure: false
   dashboard: true
 global:
   checkNewVersion: true
@@ -40,9 +40,9 @@ log:
 #serversTransport:
   #insecureSkipVerify: true
 certificatesResolvers:
-  cloudflare-dns-resolver:
+  dns-resolver-cloudflare:
     acme:
-      keyType: RSA4096
+      keyType: EC384
       storage: acme.json
       dnsChallenge:
         provider: cloudflare
@@ -61,7 +61,7 @@ entryPoints:
     address: ":443"
     http:
       tls:
-        certResolver: cloudflare-dns-resolver
+        certResolver: dns-resolver-cloudflare
     # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
     forwardedHeaders:
       trustedIPs:

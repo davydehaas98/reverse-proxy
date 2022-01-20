@@ -24,10 +24,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --configFile=/config/traefik.yml
-      # - --certificatesResolvers.dns-cloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
-      - --certificatesResolvers.dns-cloudflare.acme.email=$CLOUDFLARE_EMAIL
-      - --certificatesResolvers.dns-cloudflare.acme.storage=/acme.json
-      - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.provider=cloudflare
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - diun.enable=true

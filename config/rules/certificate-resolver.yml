@@ -1,8 +1,0 @@
-certificatesResolvers:
-  dns-cloudflare:
-    acme:
-      email: $CLOUDFLARE_EMAIL
-      storage: acme.json
-      dnsChallenge:
-        provider: cloudflare
-      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing

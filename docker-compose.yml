@@ -16,7 +16,7 @@ services:
       - 443:443
       - 8080:8080
     volumes:
-      - $USER_DIR/config:/config
+      - $USER_DIR/config:/config:ro
       # touch $USER_DIR/acme/acme.json
       # chmod 600 $USER_DIR/acme/acme.json
       - $USER_DIR/acme/acme.json:/acme.json
@@ -24,6 +24,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --configFile=/config/traefik.yml
+      - --certificatesResolver.cloudflare-dns-resolver.acme.email=$CLOUDFLARE_EMAIL
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - diun.enable=true
@@ -105,6 +106,5 @@ services:
       - traefik.enable=true
       - traefik.http.routers.oauth.entrypoints=websecure
       - traefik.http.routers.oauth.rule=Host(`oauth.$DOMAIN_NAME`)
-      - traefik.http.routers.oauth.tls=true
       - traefik.http.routers.oauth.middlewares=chain-oauth@file
       - traefik.http.services.oauth.loadbalancer.server.port=4181

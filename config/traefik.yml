@@ -14,25 +14,41 @@ providers:
     swarmMode: false
   file:
     directory: /config/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
-#     filename: /config/dynamic.yml # Load dynamic configuration from a file.
     watch: true # Only works on top level files in the rules folder
+metrics:
+  prometheus:
+    addRoutersLabels: true
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+tracing:
+  jaeger:
+    gen128Bit: true
 accessLog:
-  filePath: /traefik.log
+  filePath: /access.log
   bufferingSize: 100
   filters:
     statuscodes: 400-499
+    retryAttempts: true
+    minDuration: 10ms
 log:
+  filePath: /traefik.log
   level: ERROR
-# serversTransport:
-#   insecureSkipVerify: true
+#serversTransport:
+  #insecureSkipVerify: true
 certificatesResolvers:
   cloudflare-dns-resolver:
     acme:
       email: $CLOUDFLARE_EMAIL
+      keyType: RSA8192
       storage: acme.json
       dnsChallenge:
         provider: cloudflare
-#       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
 entryPoints:
   traefik:
     address: ":8080"

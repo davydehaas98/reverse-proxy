@@ -34,7 +34,7 @@ jobs:
         source: docker-compose.yml
         target: ${{ env.TARGET_DIR }}
         rm: true
-    - name: SSH SCP | Copy /rules
+    - name: SSH SCP | Copy /config
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -43,8 +43,8 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: rules/
-        target: ${{ env.USER_DIR }}/rules
+        source: config/
+        target: ${{ env.USER_DIR }}/config
         strip_components: 1 # strip /rules
         rm: true
     - name: SSH | Start container

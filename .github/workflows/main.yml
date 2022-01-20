@@ -10,11 +10,11 @@ concurrency:
   cancel-in-progress: false
   
 env:
-  TARGET_DIR: /opt/compose/reverse-proxy
+  TARGET_DIR: /opt/compose/reverse-proxy/
   PGID: 1000
   PUID: 1000
   TZ: Europe/Amsterdam
-  USER_DIR: /opt/appdata/reverse-proxy
+  USER_DIR: /opt/appdata/reverse-proxy/
   DOMAIN_NAME: davydehaas.nl
 
 jobs:
@@ -22,10 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        rm: true
-    - name: SSH SCP | Copy container configurations
+    - name: SSH SCP | Copy docker-compose.yml
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -34,9 +31,8 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: ./docker-compose.yml
+        source: docker-compose.yml
         target: ${{ env.TARGET_DIR }}
-        strip_components: 1
         rm: true
     - name: SSH SCP | Copy /rules
       uses: appleboy/scp-action@master
@@ -47,9 +43,8 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: ./rules/
+        source: rules/
         target: ${{ env.USER_DIR }}
-        strip_components: 1
         rm: true
     - name: SSH | Start container
       uses: appleboy/ssh-action@master

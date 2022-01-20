@@ -29,10 +29,7 @@ services:
       - diun.enable=true
       - diun.watch_repo=true
       - traefik.enable=true
-      - traefik.http.routers.http-catchall.entrypoints=http
-      - traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)
-      - traefik.http.routers.http-catchall.middlewares=middlewares-https-redirectscheme@file
-      - traefik.http.routers.traefik.entrypoints=https
+      - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)
       - traefik.http.routers.traefik.tls=true
       - traefik.http.routers.traefik.middlewares=chain-oauth@file
@@ -106,11 +103,8 @@ services:
       - diun.enable=true
       - diun.watch_repo=true
       - traefik.enable=true
-      ## HTTP Routers
-      - traefik.http.routers.oauth.entrypoints=https
+      - traefik.http.routers.oauth.entrypoints=websecure
       - traefik.http.routers.oauth.rule=Host(`oauth.$DOMAIN_NAME`)
       - traefik.http.routers.oauth.tls=true
-      ## Middlewares
       - traefik.http.routers.oauth.middlewares=chain-oauth@file
-      ## HTTP Services
       - traefik.http.services.oauth.loadbalancer.server.port=4181

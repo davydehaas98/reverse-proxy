@@ -4,6 +4,9 @@ api:
   dashboard: true
 # serversTransport:
 #   insecureSkipVerify: true
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
 providers:
   docker:
     defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.$DOMAIN_NAME`)"
@@ -13,6 +16,7 @@ providers:
     swarmMode: false
   file:
     directory: /rules
+    watch: true # Only works on top level files in the rules folder
 accessLog:
   filePath: /traefik.log
   bufferingSize: 100
@@ -21,6 +25,8 @@ accessLog:
 log:
   level: ERROR
 entryPoints:
+  traefik:
+    address: ":8080"
   http:
     address: ":80"
   https:

@@ -2,14 +2,6 @@
 api:
   insecure: true
   dashboard: true
-certificatesResolvers:
-  cloudflare-dns-resolver:
-    acme:
-      email: $CLOUDFLARE_EMAIL
-      storage: acme.json
-      dnsChallenge:
-        provider: cloudflare
-#       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
 global:
   checkNewVersion: true
   sendAnonymousUsage: true
@@ -33,6 +25,14 @@ log:
   level: ERROR
 # serversTransport:
 #   insecureSkipVerify: true
+certificatesResolvers:
+  cloudflare-dns-resolver:
+    acme:
+      email: $CLOUDFLARE_EMAIL
+      storage: acme.json
+      dnsChallenge:
+        provider: cloudflare
+#       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
 entryPoints:
   traefik:
     address: ":8080"
@@ -46,10 +46,10 @@ entryPoints:
   websecure:
     address: ":443"
     tls:
-      certResolver: dns-cloudflare
+      certResolver: cloudflare-dns-resolver
       domains:
-        - main: davydehaas.nl
-          sans: *.davydehaas.nl
+        - main: "davydehaas.nl"
+          sans: "*.davydehaas.nl"
     # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
     forwardedHeaders:
       trustedIPs:

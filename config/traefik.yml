@@ -26,7 +26,12 @@ metrics:
       - 5.0
 tracing:
   jaeger:
+    samplingType: const
+    samplingParam: 1.0
     gen128Bit: true
+    samplingServerURL: http://jaeger:5778/sampling
+    localAgentHostPort: jaeger:6831
+    propagation: jaeger
 accessLog:
   filePath: /access.log
   bufferingSize: 100

@@ -45,11 +45,12 @@ entryPoints:
           scheme: https
   websecure:
     address: ":443"
-    tls:
-      certResolver: cloudflare-dns-resolver
-      domains:
-        - main: "davydehaas.nl"
-          sans: "*.davydehaas.nl"
+    http:
+      tls:
+        certResolver: cloudflare-dns-resolver
+        domains:
+          - main: "davydehaas.nl"
+            sans: "*.davydehaas.nl"
     # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
     forwardedHeaders:
       trustedIPs:

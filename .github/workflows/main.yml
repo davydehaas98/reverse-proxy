@@ -44,7 +44,7 @@ jobs:
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: rules/
-        target: ${{ env.TARGET_DIR }}
+        target: ${{ env.USER_DIR }}/rules
         rm: true
     - name: SSH | Start container
       uses: appleboy/ssh-action@master

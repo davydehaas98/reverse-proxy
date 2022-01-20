@@ -45,6 +45,7 @@ jobs:
         # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: rules/
         target: ${{ env.USER_DIR }}/rules
+        strip_components: 1 # strip /rules
         rm: true
     - name: SSH | Start container
       uses: appleboy/ssh-action@master

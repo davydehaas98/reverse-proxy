@@ -15,7 +15,7 @@ global:
   sendAnonymousUsage: true
 providers:
   docker:
-    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.$DOMAIN_NAME`)"
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.davydehaas.nl`)"
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     network: reverse-proxy_default
@@ -36,10 +36,20 @@ log:
 entryPoints:
   traefik:
     address: ":8080"
-  http:
+  web:
     address: ":80"
-  https:
+    http:
+      redirections:
+        EntryPoint:
+          to: websecure
+          scheme: https
+  websecure:
     address: ":443"
+    tls:
+      certResolver: dns-cloudflare
+      domains:
+        - main: davydehaas.nl
+          sans: *.davydehaas.nl
     # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
     forwardedHeaders:
       trustedIPs:

@@ -15,7 +15,8 @@ providers:
     network: reverse-proxy_default
     swarmMode: false
   file:
-    directory: /config/rules
+    directory: /config/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
+#     filename: /config/dynamic.yml # Load dynamic configuration from a file.
     watch: true # Only works on top level files in the rules folder
 accessLog:
   filePath: /traefik.log

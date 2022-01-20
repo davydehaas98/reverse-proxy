@@ -1,0 +1,44 @@
+# https://doc.traefik.io/traefik/getting-started/configuration-overview/#the-static-configuration
+api:
+  insecure: true
+  dashboard: true
+# serversTransport:
+#   insecureSkipVerify: true
+providers:
+  docker:
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.$DOMAIN_NAME`)"
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: reverse-proxy_default
+    swarmMode: false
+  file:
+    directory: /rules
+accessLog:
+  filePath: /traefik.log
+  bufferingSize: 100
+  filters:
+    statuscodes: 400-499
+log:
+  level: ERROR
+entryPoints:
+  http:
+    address: ":80"
+  https:
+    address: ":443"
+    # Allow these IPs to set the X-Forwarded-* headers - Cloudflare IPs: https://www.cloudflare.com/ips/
+    forwardedHeaders:
+      trustedIPs:
+        - 173.245.48.0/20
+        - 103.21.244.0/22
+        - 103.22.200.0/22
+        - 103.31.4.0/22
+        - 141.101.64.0/18
+        - 108.162.192.0/18
+        - 190.93.240.0/20
+        - 188.114.96.0/20
+        - 197.234.240.0/22
+        - 198.41.128.0/17
+        - 162.158.0.0/15
+        - 104.16.0.0/12
+        - 172.64.0.0/13
+        - 131.0.72.0/22

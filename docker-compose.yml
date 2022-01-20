@@ -24,6 +24,7 @@ services:
       - $USER_DIR/shared:/shared
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command: # CLI arguments
+      - --configFile=/rules/traefik.yml
       - --api.insecure=true
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true

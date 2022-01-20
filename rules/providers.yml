@@ -1,7 +1,0 @@
-providers:
-  docker:
-    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.$DOMAIN_NAME`)"
-    endpoint: "unix:///var/run/docker.sock"
-    exposedByDefault: false
-    network: reverse-proxy_default
-    swarmMode: false

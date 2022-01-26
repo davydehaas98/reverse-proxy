@@ -20,6 +20,10 @@ http:
         permanent: true
     middlewares-secure-headers:
       headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+        customResponseHeaders:
+          Cache-Control: no-cache, max-age=0
         accessControlAllowCredentials: true
         accessControlAllowMethods:
           - GET
@@ -30,27 +34,24 @@ http:
           - Origin
           - Authorization
           - Content-Type
-        # accessControlAllowOrigin: "*"
+        accessControlAllowOriginList: 
+          - https://davydehaas.nl
+          - https://*.davydehaas.nl
         accessControlMaxAge: 100
         addVaryHeader: true
-        frameDeny: true
-        contentTypeNosniff: true
-        referrerPolicy: no-referrer
-        browserXssFilter: true
-        forceSTSHeader: true
-        stsPreload: true
-        stsIncludeSubdomains: true
         sslRedirect: true
         stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        forceSTSHeader: true
+        customFrameOptionsValue: SAMEORIGIN
+        contentTypeNosniff: true
+        customBrowserXssValue: 1; mode=block
+        contentSecurityPolicy: upgrade-insecure-requests
+        referrerPolicy: no-referrer
         # featurePolicy: >-
         #   camera 'none'; geolocation 'none'; microphone 'none';
         #   payment 'none'; usb 'none'; vr 'none';
         permissionsPolicy: >-
-          camera=(), geolocation=(self "https://davydehaas.nl"), microphone=(), 
+          camera=(), geolocation=(), microphone=(), 
           payment=(), usb=(), vr=(),
-        customFrameOptionsValue: SAMEORIGIN
-        contentSecurityPolicy: "upgrade-insecure-requests" always;
-        customRequestHeaders:
-          X-Forwarded-Proto: https
-        customResponseHeaders:
-          Cache-Control: "no-cache, max-age=0" always;

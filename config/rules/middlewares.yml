@@ -6,7 +6,7 @@ http:
         usersFile: /shared/.htpasswd
     middlewares-oauth:
       forwardAuth:
-        address: 'http://oauth:4181'
+        address: http://oauth:4181
         trustForwardHeader: true
         authResponseHeaders:
           - X-Forwarded-User
@@ -20,27 +20,34 @@ http:
         permanent: true
     middlewares-secure-headers:
       headers:
+        accessControlAllowCredentials: true
         accessControlAllowMethods:
           - GET
           - POST
+          - PUT
+          - OPTIONS
+        accessControlAllowHeaders:
+          - Origin
+          - Authorization
+          - Content-Type
+        accessControlAllowOrigin: "*"
         accessControlMaxAge: 100
-        hostsProxyHeaders:
-          - X-Forwarded-Host
-        sslRedirect: true
+        addVaryHeader: true
         frameDeny: true
-        stsSeconds: 63072000
-        stsIncludeSubdomains: true
-        stsPreload: true
-        forceSTSHeader: true
-        browserXssFilter: true
-        customFrameOptionsValue: 'allow-from https://davydehaas.nl'
         contentTypeNosniff: true
-        referrerPolicy: same-origin
-        featurePolicy: >-
-          camera 'none'; geolocation 'none'; microphone 'none'; payment 'none';
+        referrerPolicy: no-referrer
+        browserXssFilter: true
+        forceSTSHeader: true
+        stsPreload: true
+        stsIncludeSubdomains: true
+        sslRedirect: true
+        stsSeconds: 31536000
+        permissionPolicy: >-
+          camera 'none'; geolocation 'none';
+          microphone 'none'; payment 'none';
           usb 'none'; vr 'none';
+        customFrameOptionsValue: SAMEORIGIN
         customRequestHeaders:
-          X-Forwarded-Proto: 'https'
+          X-Forwarded-Proto: https
         customResponseHeaders:
-          X-Robots-Tag: 'none,noarchive,nosnippet,notranslate,noimageindex,'
-          server: ''
+          Cache-Control: "no-cache, max-age=0"

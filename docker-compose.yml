@@ -16,11 +16,10 @@ services:
       - 443:443
       - 8080:8080
     volumes:
-      - $USER_DIR/config:/config:ro
       # touch $USER_DIR/acme/acme.json
       # chmod 600 $USER_DIR/acme/acme.json
       - $USER_DIR/acme/acme.json:/acme.json
-      - $USER_DIR/traefik.log:/traefik.log
+      - $USER_DIR/config:/config:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --configFile=/config/traefik.yml

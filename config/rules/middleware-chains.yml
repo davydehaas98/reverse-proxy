@@ -10,27 +10,23 @@ http:
       chain:
         middlewares:
           - middlewares-rate-limit
-          - middlewares-https-redirectscheme
           - middlewares-secure-headers
           - middlewares-basic-auth
     chain-oauth:
       chain:
         middlewares:
           - middlewares-rate-limit
-          - middlewares-https-redirectscheme
           - middlewares-secure-headers
           - middlewares-oauth
     chain-authelia:
       chain:
         middlewares:
           - middlewares-rate-limit
-          - middlewares-https-redirectscheme
           - middlewares-secure-headers
           - middlewares-authelia
     chain-nextcloud:
       chain:
         middlewares:
           - middlewares-rate-limit
-          - middlewares-https-redirectscheme
           - nextcloud-middlewares-secure-headers
           - nextcloud-redirect

@@ -30,7 +30,7 @@ http:
           - Origin
           - Authorization
           - Content-Type
-        accessControlAllowOrigin: "*"
+        # accessControlAllowOrigin: "*"
         accessControlMaxAge: 100
         addVaryHeader: true
         frameDeny: true
@@ -42,12 +42,15 @@ http:
         stsIncludeSubdomains: true
         sslRedirect: true
         stsSeconds: 31536000
-        permissionPolicy: >-
-          camera 'none'; geolocation 'none';
-          microphone 'none'; payment 'none';
-          usb 'none'; vr 'none';
+        # featurePolicy: >-
+        #   camera 'none'; geolocation 'none'; microphone 'none';
+        #   payment 'none'; usb 'none'; vr 'none';
+        permissionsPolicy: >-
+          camera=(), geolocation=(self "https://davydehaas.nl"), microphone=(), 
+          payment=(), usb=(), vr=(),
         customFrameOptionsValue: SAMEORIGIN
+        contentSecurityPolicy: "upgrade-insecure-requests" always;
         customRequestHeaders:
           X-Forwarded-Proto: https
         customResponseHeaders:
-          Cache-Control: "no-cache, max-age=0"
+          Cache-Control: "no-cache, max-age=0" always;

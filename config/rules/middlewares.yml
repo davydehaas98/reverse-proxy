@@ -48,7 +48,7 @@ http:
         contentTypeNosniff: true
         customBrowserXssValue: 1; mode=block
         contentSecurityPolicy: upgrade-insecure-requests
-        referrerPolicy: no-referrer
+        referrerPolicy: no-referrer-when-downgrade, strict-origin-when-cross-origin
         # featurePolicy: >-
         #   camera 'none'; geolocation 'none'; microphone 'none';
         #   payment 'none'; usb 'none'; vr 'none';

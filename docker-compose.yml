@@ -26,9 +26,7 @@ services:
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=$CLOUDFLARE_EMAIL
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAIN_NAME`)
     labels:
-      - com.centurylinklabs.watchtower.enable=true
       - diun.enable=true
-      - diun.watch_repo=true
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)
@@ -51,9 +49,7 @@ services:
       - DELETE_ON_STOP=false
       - DNS_SERVER=1.1.1.1
     labels:
-      - com.centurylinklabs.watchtower.enable=true
       - diun.enable=true
-      - diun.watch_repo=true
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
     image: tiredofit/traefik-cloudflare-companion:latest
@@ -72,9 +68,7 @@ services:
       - DOMAIN1_ZONE_ID=$CLOUDFLARE_ZONE_ID
       - DOMAIN1_PROXIED=TRUE
     labels:
-      - com.centurylinklabs.watchtower.enable=true
       - diun.enable=true
-      - diun.watch_repo=true
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
       - traefik.http.routers.cf-companion-rtr.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)
@@ -102,9 +96,7 @@ services:
       - DEFAULT_ACTION=auth
       - DEFAULT_PROVIDER=google
     labels:
-      - com.centurylinklabs.watchtower.enable=true
       - diun.enable=true
-      - diun.watch_repo=true
       - traefik.enable=true
       - traefik.http.routers.oauth.entrypoints=websecure
       - traefik.http.routers.oauth.rule=Host(`oauth.$DOMAIN_NAME`)

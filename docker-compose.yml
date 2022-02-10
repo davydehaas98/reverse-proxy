@@ -93,12 +93,14 @@ services:
     labels:
       - diun.enable=true
       - traefik.enable=true
-      - traefik.http.routers.oauth.entrypoints=websecure
-      - traefik.http.routers.oauth.rule=Host(`authelia.$DOMAIN_NAME`)
+      - traefik.http.routers.authelia.entrypoints=websecure
+      - traefik.http.routers.authelia.rule=Host(`authelia.$DOMAIN_NAME`)
+      - traefik.http.routers.authelia.middlewares=chain-authelia@file
+      - traefik.http.services.authelia.loadbalancer.server.port=9091
   oauth:
     image: thomseddon/traefik-forward-auth:latest
-    container_name: oauth
     # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
+    container_name: oauth
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true

@@ -7,6 +7,9 @@ services:
     cpus: 1
     mem_limit: 1G
     environment:
+      - PGID=${PGID}
+      - PUID=${PUID}
+      - TZ=${TZ}
       - CF_API_EMAIL=$CLOUDFLARE_EMAIL
       - CF_API_KEY=$CLOUDFLARE_API_KEY
     security_opt:
@@ -55,10 +58,10 @@ services:
     image: tiredofit/traefik-cloudflare-companion:latest
     container_name: cf-companion
     restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - TIMEZONE=$TZ
+      - PGID=${PGID}
+      - PUID=${PUID}
+      - TZ=${TZ}
       - TRAEFIK_VERSION=2
       - CF_EMAIL=$CLOUDFLARE_EMAIL # Same as traefik
       # - CF_TOKEN=$CLOUDFLARE_API_TOKEN # Scoped api token not working. Error 10000.
@@ -67,15 +70,34 @@ services:
       - DOMAIN1=$DOMAIN_NAME
       - DOMAIN1_ZONE_ID=$CLOUDFLARE_ZONE_ID
       - DOMAIN1_PROXIED=TRUE
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - diun.enable=true
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
-      - traefik.http.routers.cf-companion-rtr.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)
+      - traefik.http.routers.cf-companion.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
+  authelia:
+    image: authelia/authelia:4.33.2
+    container_name: authelia
+    restart: unless-stopped
+    environment:
+      - PGID=${PGID}
+      - PUID=${PUID}
+      - TZ=${TZ}
+    expose:
+      - 9091
+    volumes:
+      - $USER_DIR/authelia/config:/config
+    labels:
+      - diun.enable=true
+      - traefik.enable=true
+      - traefik.http.routers.oauth.entrypoints=websecure
+      - traefik.http.routers.oauth.rule=Host(`authelia.$DOMAIN_NAME`)
   oauth:
-    container_name: oauth
     image: thomseddon/traefik-forward-auth:latest
+    container_name: oauth
     # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
     restart: unless-stopped
     security_opt:

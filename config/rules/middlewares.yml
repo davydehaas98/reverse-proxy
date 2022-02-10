@@ -4,6 +4,15 @@ http:
       basicAuth:
         realm: Traefik2 Basic Auth
         usersFile: /shared/.htpasswd
+    middlewares-authelia:
+      forwardAuth:
+        address: http://authelia:9091/api/verify?rd=https://authelia.davydehaas.nl/
+        trustForwardHeader: true
+        authResponseHeaders:
+          - Remote-User
+          - Remote-Groups
+          - Remote-Name
+          - Remote-Email
     middlewares-oauth:
       forwardAuth:
         address: http://oauth:4181

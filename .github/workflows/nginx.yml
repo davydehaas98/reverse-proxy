@@ -13,7 +13,7 @@ env:
   DOCKER_USERNAME: davydehaas98
   DOCKER_REGISTRY: ghcr.io
   DOCKER_IMAGE: davydehaas98/reverse-proxy
-  DOCKER_TAG: main-${{ github.sha }}
+  DOCKER_TAG: nginx-${{ github.run_number }}-${{ github.run_attempt }}
   TARGET_DIR: ./docker-compose/reverse-proxy
   DOMAIN_NAME: davydehaas.nl
 

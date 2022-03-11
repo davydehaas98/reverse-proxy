@@ -29,4 +29,4 @@ http:
         middlewares:
           - middlewares-rate-limit
           - nextcloud-middlewares-secure-headers
-          - nextcloud-redirect
+          - nextcloud-middlewares-redirect

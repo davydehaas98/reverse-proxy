@@ -28,5 +28,5 @@ http:
       chain:
         middlewares:
           - middlewares-rate-limit
-          - nextcloud-middlewares-secure-headers
+          - middlewares-secure-headers
           - nextcloud-middlewares-redirect

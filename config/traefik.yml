@@ -2,9 +2,11 @@
 api:
   insecure: false
   dashboard: true
+
 global:
   checkNewVersion: true
   sendAnonymousUsage: true
+
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
@@ -14,6 +16,7 @@ providers:
   file:
     directory: /config/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
     watch: true # Only works on top level files in the rules folder
+
 metrics:
   prometheus:
     addRoutersLabels: true
@@ -24,6 +27,7 @@ metrics:
       - 0.3
       - 1.2
       - 5.0
+
 tracing:
   jaeger:
     samplingType: const
@@ -32,6 +36,7 @@ tracing:
     samplingServerURL: http://jaeger:5778/sampling
     localAgentHostPort: jaeger:6831
     propagation: jaeger
+
 accessLog:
   filePath: /access.log
   bufferingSize: 100
@@ -39,11 +44,14 @@ accessLog:
     statuscodes: 400-499
     retryAttempts: true
     minDuration: 10ms
+
 log:
   filePath: /traefik.log
   level: ERROR
-#serversTransport:
-  #insecureSkipVerify: true
+
+serversTransport:
+  insecureSkipVerify: true
+
 certificatesResolvers:
   dns-resolver-cloudflare:
     acme:
@@ -52,6 +60,7 @@ certificatesResolvers:
       dnsChallenge:
         provider: cloudflare
       #caServer: https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
+
 entryPoints:
   traefik:
     address: ":8080"

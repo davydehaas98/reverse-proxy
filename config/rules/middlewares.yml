@@ -4,6 +4,7 @@ http:
       basicAuth:
         realm: Traefik2 Basic Auth
         usersFile: /shared/.htpasswd
+        
     middlewares-authelia:
       forwardAuth:
         address: http://authelia:9091/api/verify?rd=https://authelia.davydehaas.nl/
@@ -13,26 +14,38 @@ http:
           - Remote-Groups
           - Remote-Name
           - Remote-Email
+          
     middlewares-oauth:
       forwardAuth:
         address: http://oauth:4181
         trustForwardHeader: true
         authResponseHeaders:
           - X-Forwarded-User
+          
     middlewares-rate-limit:
       rateLimit:
         average: 100
         burst: 50
+        
     middlewares-https-redirectscheme:
       redirectScheme:
         scheme: https
         permanent: true
+        
+    # https://docs.nextcloud.com/server/21/admin_manual/issues/general_troubleshooting.html#service-discovery
+    middlewares-nextcloud-redirect:
+      redirectRegex:
+        permanent: true
+        regex: https://(.*)/.well-known/(card|cal)dav
+        replacement: https://${1}/remote.php/dav/
+        
     middlewares-secure-headers:
       headers:
         customRequestHeaders:
           X-Forwarded-Proto: https
         customResponseHeaders:
           Cache-Control: no-cache, max-age=0
+          X-Robots-Tag: none
         accessControlAllowCredentials: true
         accessControlAllowMethods:
           - GET

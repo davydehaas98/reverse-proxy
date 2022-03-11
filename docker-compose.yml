@@ -34,7 +34,7 @@ services:
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)
       - traefik.http.routers.traefik.service=api@internal
-      - traefik.http.routers.traefik.middlewares=chain-oauth@file
+      - traefik.http.routers.traefik.middlewares=chain-authelia@file
       - traefik.http.routers.traefik.tls.domains[0].main=$DOMAIN_NAME
       - traefik.http.routers.traefik.tls.domains[0].sans=*.$DOMAIN_NAME
       - traefik.http.services.traefik.loadbalancer.server.port=8080

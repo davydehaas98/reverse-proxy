@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   reverse-proxy:
-    image: traefik:v2.6
+    image: traefik:2.6.0
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 1
@@ -55,7 +55,7 @@ services:
       - diun.enable=true
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
-    image: tiredofit/traefik-cloudflare-companion:latest
+    image: tiredofit/traefik-cloudflare-companion:6.8.3
     container_name: cf-companion
     restart: unless-stopped
     environment:
@@ -98,7 +98,7 @@ services:
       - traefik.http.routers.authelia.middlewares=chain-authelia@file
       - traefik.http.services.authelia.loadbalancer.server.port=9091
   oauth:
-    image: thomseddon/traefik-forward-auth:latest
+    image: thomseddon/traefik-forward-auth:2.2.0
     # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
     container_name: oauth
     restart: unless-stopped

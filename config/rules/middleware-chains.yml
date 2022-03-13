@@ -5,7 +5,6 @@ http:
       chain:
         middlewares:
           - compress-middleware
-          - errorpage-middleware
           - rate-limit-middleware
           - retry-middleware
           - secure-headers-middleware
@@ -14,7 +13,6 @@ http:
       chain:
         middlewares:
           - compress-middleware
-          - errorpage-middleware
           - rate-limit-middleware
           - retry-middleware
           - secure-headers-middleware
@@ -24,7 +22,6 @@ http:
       chain:
         middlewares:
           - compress-middleware
-          - errorpage-middleware
           - rate-limit-middleware
           - retry-middleware
           - secure-headers-middleware
@@ -34,7 +31,6 @@ http:
       chain:
         middlewares:
           - compress-middleware
-          - errorpage-middleware
           - rate-limit-middleware
           - retry-middleware
           - secure-headers-middleware

@@ -1,11 +1,11 @@
 http:
   middlewares:
-    middlewares-basic-auth:
+    basic-auth-middleware:
       basicAuth:
         realm: Traefik2 Basic Auth
         usersFile: /shared/.htpasswd
         
-    middlewares-authelia:
+    authelia-middleware:
       forwardAuth:
         address: http://authelia:9091/api/verify?rd=https://authelia.davydehaas.nl/
         trustForwardHeader: true
@@ -15,31 +15,52 @@ http:
           - Remote-Name
           - Remote-Email
           
-    middlewares-oauth:
+    oauth-middleware:
       forwardAuth:
         address: http://oauth:4181
         trustForwardHeader: true
         authResponseHeaders:
           - X-Forwarded-User
           
-    middlewares-rate-limit:
+    rate-limit-middleware:
       rateLimit:
         average: 100
+        period: 1m
         burst: 50
-        
-    middlewares-https-redirect:
-      redirectScheme:
-        scheme: https
-        permanent: true
+    
+    compress-middleware:
+      compress:
+        minResponseBodyBytes: 1024
+        excludedContentTypes:
+          - text/event-stream
+
+    buffering-middleware:
+      buffering:
+        retryExpression: "IsNetworkError() && Attempts() < 2"
+        maxRequestBodyBytes: 2000000
+        memRequestBodyBytes: 2000000
+        maxResponseBodyBytes: 2000000
+        memResponseBodyBytes: 2000000
+
+    circuit-breaker-middleware:
+      circuitBreaker:
+        expression: "LatencyAtQuantileMS(50.0) > 100"
+
+    errorpage-middleware:
+      errors:
+        status:
+          - "400-499"
+        service: serviceError
+        query: "/{status}.html"
         
     # https://docs.nextcloud.com/server/21/admin_manual/issues/general_troubleshooting.html#service-discovery
-    middlewares-nextcloud-redirect:
+    nextcloud-middleware:
       redirectRegex:
         permanent: true
         regex: "https://(.*)/.well-known/(card|cal)dav"
-        replacement: "https://${1}/remote.php/dav/"
+        replacement: "/remote.php/dav/"
         
-    middlewares-secure-headers:
+    secure-headers-middleware:
       headers:
         customRequestHeaders:
           X-Forwarded-Proto: https

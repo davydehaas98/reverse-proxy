@@ -5,7 +5,7 @@ api:
 
 global:
   checkNewVersion: true
-  sendAnonymousUsage: true
+  sendAnonymousUsage: false
 
 providers:
   docker:
@@ -47,7 +47,7 @@ accessLog:
 
 log:
   filePath: /traefik.log
-  level: ERROR
+  level: WARN
 
 serversTransport:
   insecureSkipVerify: true

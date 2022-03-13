@@ -1,5 +1,6 @@
 http:
   middlewares:
+    # --- AUTHENTICATION --- 
     basic-auth-middleware:
       basicAuth:
         realm: Traefik2 Basic Auth
@@ -22,18 +23,7 @@ http:
         authResponseHeaders:
           - X-Forwarded-User
           
-    rate-limit-middleware:
-      rateLimit:
-        average: 100
-        period: 1m
-        burst: 50
-    
-    compress-middleware:
-      compress:
-        minResponseBodyBytes: 1024
-        excludedContentTypes:
-          - text/event-stream
-
+    # --- SETTINGS ---
     buffering-middleware:
       buffering:
         retryExpression: "IsNetworkError() && Attempts() < 2"
@@ -41,6 +31,12 @@ http:
         memRequestBodyBytes: 2000000
         maxResponseBodyBytes: 2000000
         memResponseBodyBytes: 2000000
+    
+    compress-middleware:
+      compress:
+        minResponseBodyBytes: 1024
+        excludedContentTypes:
+          - text/event-stream
 
     circuit-breaker-middleware:
       circuitBreaker:
@@ -52,14 +48,26 @@ http:
           - "400-499"
         service: serviceError
         query: "/{status}.html"
-        
-    # https://docs.nextcloud.com/server/21/admin_manual/issues/general_troubleshooting.html#service-discovery
+
+    rate-limit-middleware:
+      rateLimit:
+        average: 100
+        period: 1m
+        burst: 50
+
+    retry-middleware:
+      retry:
+        attempts: 4
+        initialInterval: 100ms
+
+    # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#
     nextcloud-middleware:
       redirectRegex:
         permanent: true
         regex: "https://(.*)/.well-known/(card|cal)dav"
-        replacement: "/remote.php/dav/"
+        replacement: "https://${1}/remote.php/dav/"
         
+    # --- SECURITY ---
     secure-headers-middleware:
       headers:
         customRequestHeaders:

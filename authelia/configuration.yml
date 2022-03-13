@@ -2,8 +2,12 @@
 server:
   host: 0.0.0.0
   port: 9091
+
 log: 
   level: warn
+  format: json
+
+theme: dark
 
 # https://www.grc.com/passwords.htm
 # jwt_secret: SECRET_GOES_HERE # use docker secret file instead AUTHELIA_JWT_SECRET_FILE
@@ -12,6 +16,7 @@ default_redirection_url: https://authelia.davydehaas.nl
 
 totp:
   issuer: authelia.com
+  digits: 6
   period: 30
   skew: 1
 
@@ -28,12 +33,21 @@ authentication_backend:
 # https://docs.authelia.com/configuration/access-control.html
 access_control:
   default_policy: deny
+  networks:
+    - name: internal
+      networks:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/24
+    - name: VPN
+      networks:
+        - 10.9.0.0/16
   rules:
     - domain: authelia.davydehaas.nl
       policy: bypass
     - domain:
-        - "*.davydehaas.nl"
         - "davydehaas.nl"
+        - "*.davydehaas.nl"
       policy: two_factor
 
 session:
@@ -46,13 +60,13 @@ session:
 
 regulation:
   max_retries: 3
-  find_time: 120
-  ban_time: 300
+  find_time: 2m
+  ban_time: 5m
 
 storage:
+  encryption_key: SECRET_GOES_HERE
   local:
     path: /config/db.sqlite3
-  # encryption_key: SECRET_GOES_HERE
 
 notifier:
   # For testing purposes, notifications can be sent in a file. Be sure to map the volume in docker-compose.

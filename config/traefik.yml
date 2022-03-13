@@ -3,6 +3,9 @@ api:
   insecure: false
   dashboard: true
 
+experimental:
+  http3: true
+
 global:
   checkNewVersion: true
   sendAnonymousUsage: false

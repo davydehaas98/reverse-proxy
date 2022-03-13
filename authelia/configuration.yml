@@ -45,6 +45,8 @@ access_control:
   rules:
     - domain: authelia.davydehaas.nl
       policy: bypass
+      networks:
+        - internal
     - domain:
         - "davydehaas.nl"
         - "*.davydehaas.nl"

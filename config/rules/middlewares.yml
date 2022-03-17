@@ -70,14 +70,6 @@ http:
     # --- SECURITY ---
     secure-headers-middleware:
       headers:
-        customRequestHeaders:
-          X-Forwarded-Proto: https
-        customResponseHeaders:
-          Cache-Control: no-cache, max-age=0
-          Cross-Origin-Embedder-Policy: unsafe-none
-          Cross-Origin-Opener-Policy: unsafe-none
-          Cross-Origin-Resource-Policy: same-site
-          X-Robots-Tag: none
         accessControlAllowCredentials: true
         accessControlAllowMethods:
           - GET
@@ -92,20 +84,21 @@ http:
           - https://davydehaas.nl
           - https://*.davydehaas.nl
         accessControlMaxAge: 100
-        addVaryHeader: true
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+        customResponseHeaders:
+          Cache-Control: no-cache, max-age=0
+          Content-Security-Policy: upgrade-insecure-requests
+          Cross-Origin-Embedder-Policy: unsafe-none
+          Cross-Origin-Opener-Policy: unsafe-none
+          Cross-Origin-Resource-Policy: same-site
+          Expect-CT: max-age=0;
+          Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=(), vr=()
+          Referrer-Policy: strict-origin-when-cross-origin
+          Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+          Vary: ORIGIN
+          X-Content-Type-Options: nosniff
+          X-Frame-Options: SAMEORIGIN
+          X-Robots-Tag: none
+          X-XSS-Protection: 1; mode=block
         sslRedirect: true
-        stsSeconds: 31536000
-        stsIncludeSubdomains: true
-        stsPreload: true
-        forceSTSHeader: true
-        customFrameOptionsValue: SAMEORIGIN
-        contentTypeNosniff: true
-        customBrowserXssValue: 1; mode=block
-        contentSecurityPolicy: upgrade-insecure-requests
-        referrerPolicy: strict-origin-when-cross-origin
-        # featurePolicy: >-
-        #   camera 'none'; geolocation 'none'; microphone 'none';
-        #   payment 'none'; usb 'none'; vr 'none';
-        permissionsPolicy: >-
-          camera=(), geolocation=(), microphone=(), 
-          payment=(), usb=(), vr=(),

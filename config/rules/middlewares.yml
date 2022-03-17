@@ -74,6 +74,9 @@ http:
           X-Forwarded-Proto: https
         customResponseHeaders:
           Cache-Control: no-cache, max-age=0
+          Cross-Origin-Embedder-Policy: unsafe-none
+          Cross-Origin-Opener-Policy: unsafe-none
+          Cross-Origin-Resource-Policy: same-site
           X-Robots-Tag: none
         accessControlAllowCredentials: true
         accessControlAllowMethods:

@@ -79,7 +79,7 @@ services:
       - traefik.http.routers.cf-companion.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   authelia:
-    image: authelia/authelia:4.34.4
+    image: authelia/authelia:4.34.5
     container_name: authelia
     restart: unless-stopped
     environment:

@@ -15,6 +15,6 @@ tls:
       curvePreferences:
         - CurveP521
         - CurveP384
-      SniStrict: true
+#       SniStrict: true
     mintls13:
       minVersion: VersionTLS13

@@ -51,9 +51,9 @@ http:
 
     rate-limit-middleware:
       rateLimit:
-        average: 100
+        average: 250
         period: 1m
-        burst: 50
+        burst: 100
 
     retry-middleware:
       retry:

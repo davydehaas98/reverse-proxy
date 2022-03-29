@@ -13,7 +13,7 @@ env:
   TARGET_DIR: /opt/compose/reverse-proxy
   PGID: 1000
   PUID: 1000
-  TZ: Europe/Amsterdam
+  TZ: Etc/UTC
   USER_DIR: /opt/appdata/reverse-proxy
   DOMAIN_NAME: davydehaas.nl
 

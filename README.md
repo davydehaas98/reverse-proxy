@@ -1,2 +1,2 @@
 # reverse-proxy
-NGINX reverse proxy used on my Ubuntu server.
+Traefik reverse proxy configuration that I use on my server.

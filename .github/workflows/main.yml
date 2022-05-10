@@ -74,4 +74,4 @@ jobs:
           echo 'GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' >> .env
           echo 'GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}' >> .env
 
-          docker-compose up -d
+          docker compose up -d

@@ -81,7 +81,7 @@ services:
       
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   authelia:
-    image: authelia/authelia:4.35.5
+    image: authelia/authelia:4.35.6
     container_name: authelia
     restart: unless-stopped
     environment:

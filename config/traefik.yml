@@ -5,10 +5,15 @@ api:
 
 experimental:
   http3: true
+  hub: true
 
 global:
   checkNewVersion: true
   sendAnonymousUsage: false
+
+hub:
+  tls:
+    insecure: true
 
 providers:
   docker:

@@ -24,8 +24,6 @@ services:
       - $USER_DIR/acme/acme.json:/acme.json
       - $USER_DIR/config:/config:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    extra_hosts: 
-      - host.docker.internal:172.20.0.1
     command:
       - --configFile=/config/traefik.yml
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=$CLOUDFLARE_EMAIL

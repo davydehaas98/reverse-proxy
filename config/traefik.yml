@@ -21,6 +21,7 @@ providers:
     exposedByDefault: false
     network: reverse-proxy_default
     swarmMode: false
+    watch: true
   file:
     directory: /config/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
     watch: true # Only works on top level files in the rules folder

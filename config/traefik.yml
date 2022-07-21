@@ -73,6 +73,10 @@ certificatesResolvers:
 entryPoints:
   traefik:
     address: ":8080"
+  tcp:
+   address: ":3179/tcp"
+  udp:
+   address: ":3179/udp"
   web:
     address: ":80"
     http:

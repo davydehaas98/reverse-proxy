@@ -77,6 +77,8 @@ entryPoints:
    address: ":3179/tcp"
   udp:
    address: ":3179/udp"
+   udp:
+      timeout: 10s
   web:
     address: ":80"
     http:

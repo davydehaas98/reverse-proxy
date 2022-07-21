@@ -18,6 +18,8 @@ services:
       - 80:80
       - 443:443
       - 8080:8080
+      - 3179:3179/tcp
+      - 3179:3179/udp
     volumes:
       # touch $USER_DIR/acme/acme.json
       # chmod 600 $USER_DIR/acme/acme.json

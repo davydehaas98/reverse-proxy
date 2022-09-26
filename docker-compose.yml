@@ -10,8 +10,8 @@ services:
       - PGID=${PGID}
       - PUID=${PUID}
       - TZ=${TZ}
-      - CF_API_EMAIL=$CLOUDFLARE_EMAIL
-      - CF_API_KEY=$CLOUDFLARE_API_KEY
+      - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
+      - CF_API_KEY=${CLOUDFLARE_API_KEY}
     security_opt:
       - no-new-privileges:true
     ports:
@@ -21,24 +21,24 @@ services:
       - 3179:3179/tcp
       - 3179:3179/udp
     volumes:
-      # touch $USER_DIR/acme/acme.json
-      # chmod 600 $USER_DIR/acme/acme.json
-      - $USER_DIR/acme/acme.json:/acme.json
-      - $USER_DIR/config:/config:ro
+      # touch ${USER_DIR}/acme/acme.json
+      # chmod 600 ${USER_DIR}/acme/acme.json
+      - ${USER_DIR}/acme/acme.json:/acme.json
+      - ${USER_DIR}/config:/config:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --configFile=/config/traefik.yml
-      - --certificatesResolver.dns-resolver-cloudflare.acme.email=$CLOUDFLARE_EMAIL
-      - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAIN_NAME`)
+      - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
+      - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
     labels:
       - diun.enable=true
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.traefik.rule=Host(`traefik.$DOMAIN_NAME`)
+      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=chain-authelia@file
-      - traefik.http.routers.traefik.tls.domains[0].main=$DOMAIN_NAME
-      - traefik.http.routers.traefik.tls.domains[0].sans=*.$DOMAIN_NAME
+      - traefik.http.routers.traefik.tls.domains[0].main=${DOMAIN_NAME}
+      - traefik.http.routers.traefik.tls.domains[0].sans=*.${DOMAIN_NAME}
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     
   # Cloudflare DDNS - Dynamic DNS Updater
@@ -47,8 +47,8 @@ services:
     container_name: cf-ddns
     restart: unless-stopped
     environment:
-      - API_KEY=$CLOUDFLARE_API_TOKEN
-      - ZONE=$DOMAIN_NAME
+      - API_KEY=${CLOUDFLARE_API_TOKEN}
+      - ZONE=${DOMAIN_NAME}
       - PROXIED=true
       - RRTYPE=A
       - DELETE_ON_STOP=false
@@ -66,12 +66,12 @@ services:
       - PUID=${PUID}
       - TZ=${TZ}
       - TRAEFIK_VERSION=2
-      - CF_EMAIL=$CLOUDFLARE_EMAIL # Same as traefik
-      # - CF_TOKEN=$CLOUDFLARE_API_TOKEN # Scoped api token not working. Error 10000.
-      - CF_TOKEN=$CLOUDFLARE_API_KEY # Same as traefik
-      - TARGET_DOMAIN=$DOMAIN_NAME
-      - DOMAIN1=$DOMAIN_NAME
-      - DOMAIN1_ZONE_ID=$CLOUDFLARE_ZONE_ID
+      - CF_EMAIL=${CLOUDFLARE_EMAIL} # Same as traefik
+      # - CF_TOKEN=${CLOUDFLARE_API_TOKEN} # Scoped api token not working. Error 10000.
+      - CF_TOKEN=${CLOUDFLARE_API_KEY} # Same as traefik
+      - TARGET_DOMAIN=${DOMAIN_NAME}
+      - DOMAIN1=${DOMAIN_NAME}
+      - DOMAIN1_ZONE_ID=${CLOUDFLARE_ZONE_ID}
       - DOMAIN1_PROXIED=TRUE
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -79,7 +79,7 @@ services:
       - diun.enable=true
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
-      - traefik.http.routers.cf-companion.rule=HostHeader(`pihole.$DOMAIN_NAME`,`hassio.$DOMAIN_NAME`)
+      - traefik.http.routers.cf-companion.rule=HostHeader(`pihole.${DOMAIN_NAME}`,`hassio.${DOMAIN_NAME}`)
       
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   authelia:
@@ -93,12 +93,12 @@ services:
     expose:
       - 9091
     volumes:
-      - $USER_DIR/authelia/config:/config
+      - ${USER_DIR}/authelia/config:/config
     labels:
       - diun.enable=true
       - traefik.enable=true
       - traefik.http.routers.authelia.entrypoints=websecure
-      - traefik.http.routers.authelia.rule=Host(`authelia.$DOMAIN_NAME`)
+      - traefik.http.routers.authelia.rule=Host(`authelia.${DOMAIN_NAME}`)
       - traefik.http.routers.authelia.middlewares=chain-authelia@file
       - traefik.http.services.authelia.loadbalancer.server.port=9091
       
@@ -110,15 +110,15 @@ services:
     security_opt:
       - no-new-privileges:true
     environment:
-      - CLIENT_ID=$GOOGLE_CLIENT_ID
-      - CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
-      - SECRET=$OAUTH_SECRET
-      - COOKIE_DOMAIN=$DOMAIN_NAME
+      - CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - SECRET=${OAUTH_SECRET}
+      - COOKIE_DOMAIN=${DOMAIN_NAME}
       - INSECURE_COOKIE=false
-      - AUTH_HOST=oauth.$DOMAIN_NAME
+      - AUTH_HOST=oauth.${DOMAIN_NAME}
       - URL_PATH=/_oauth
-      # - WHITELIST=$MY_EMAIL
-      - WHITELIST=$CLOUDFLARE_EMAIL
+      # - WHITELIST=${MY_EMAIL}
+      - WHITELIST=${CLOUDFLARE_EMAIL}
       - LOG_LEVEL=warn
       - LOG_FORMAT=text
       - LIFETIME=2592000 # 30 days
@@ -128,6 +128,6 @@ services:
       - diun.enable=true
       - traefik.enable=true
       - traefik.http.routers.oauth.entrypoints=websecure
-      - traefik.http.routers.oauth.rule=Host(`oauth.$DOMAIN_NAME`)
+      - traefik.http.routers.oauth.rule=Host(`oauth.${DOMAIN_NAME}`)
       - traefik.http.routers.oauth.middlewares=chain-oauth@file
       - traefik.http.services.oauth.loadbalancer.server.port=4181

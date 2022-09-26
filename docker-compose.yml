@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   reverse-proxy:
-    image: traefik:v2.8.1
+    image: traefik:v2.8.7
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 1
@@ -83,7 +83,7 @@ services:
       
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   authelia:
-    image: authelia/authelia:4.36.3
+    image: authelia/authelia:4.36.7
     container_name: authelia
     restart: unless-stopped
     environment:

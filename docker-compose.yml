@@ -1,4 +1,4 @@
-version: "3.8"
+version: 3.9
 services:
   reverse-proxy:
     image: traefik:v2.8.7

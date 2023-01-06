@@ -81,7 +81,7 @@ services:
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
       - traefik.http.routers.cf-companion.rule=HostHeader(`pihole.${DOMAIN_NAME}`,`hassio.${DOMAIN_NAME}`)
       
-  # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
+  # Authelia - IAM
   authelia:
     image: authelia/authelia:4.37.5
     container_name: authelia
@@ -102,6 +102,7 @@ services:
       - traefik.http.routers.authelia.middlewares=chain-authelia@file
       - traefik.http.services.authelia.loadbalancer.server.port=9091
       
+  # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   oauth:
     image: thomseddon/traefik-forward-auth:2.2.0
     # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi

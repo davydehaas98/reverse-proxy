@@ -1,9 +1,9 @@
 {
-  "baseBranches": [
-    "main"
-  ],
   "extends": [
     "config:base",
+  ],
+  "baseBranches": [
+    "main",
   ],
   "packageRules": [
     {

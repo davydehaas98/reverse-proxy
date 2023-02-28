@@ -1,12 +1,23 @@
 {
-  "extends": [
-    "config:base",
-    ":rebaseStalePrs"
-  ],
   "baseBranches": [
     "main"
   ],
+  "extends": [
+    "config:base",
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [ 
+        "patch", "pin", "digest",
+      ],
+      "automerge": true,
+      "automergeSchedule": "0 6 * * *",
+    }
+  ],
+  "dependencyDashboard": true,
+  "prConcurrentLimit": 20,
+  "rebaseWhen": "behind-base-branch",
   "separateMinorPatch": true,
   "separateMajorMinor": true,
-  "separateMultipleMajor": true
+  "separateMultipleMajor": true,
 }

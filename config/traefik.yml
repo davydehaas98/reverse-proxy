@@ -72,22 +72,22 @@ certificatesResolvers:
 
 entryPoints:
   traefik:
-    address: ":8080"
+    address: :8080
   tcp:
-   address: ":3179/tcp"
+   address: :3179/tcp
   udp:
-   address: ":3179/udp"
+   address: :3179/udp
    udp:
       timeout: 10s
   web:
-    address: ":80"
+    address: :80
     http:
       redirections:
-        EntryPoint:
+        entryPoint:
           to: websecure
           scheme: https
   websecure:
-    address: ":443"
+    address: :443
     http:
       tls:
         certResolver: dns-resolver-cloudflare

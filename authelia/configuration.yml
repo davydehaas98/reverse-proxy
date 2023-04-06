@@ -2,24 +2,19 @@
 server:
   host: 0.0.0.0
   port: 9091
-
 log: 
   level: warn
   format: json
-
 theme: dark
 
 # https://www.grc.com/passwords.htm
 # jwt_secret: SECRET_GOES_HERE # use docker secret file instead AUTHELIA_JWT_SECRET_FILE
-
 default_redirection_url: https://authelia.davydehaas.nl
-
 totp:
   issuer: authelia.com
   digits: 6
   period: 30
   skew: 1
-
 authentication_backend:
   file:
     path: /config/users_database.yml
@@ -29,7 +24,6 @@ authentication_backend:
       salt_length: 16
       parallelism: 8
       memory: 1024 # blocks this much of the RAM. Tune this.
-
 # https://docs.authelia.com/configuration/access-control.html
 access_control:
   default_policy: deny
@@ -51,7 +45,6 @@ access_control:
         - "davydehaas.nl"
         - "*.davydehaas.nl"
       policy: two_factor
-
 session:
   name: authelia_session
   # https://www.grc.com/passwords.htm
@@ -59,17 +52,14 @@ session:
   expiration: 3600 # 1 hour
   inactivity: 300 # 5 minutes
   domain: davydehaas.nl # Should match whatever your root protected domain is
-
 regulation:
   max_retries: 3
   find_time: 2m
   ban_time: 5m
-
 storage:
   encryption_key: SECRET_GOES_HERE
   local:
     path: /config/db.sqlite3
-
 notifier:
   # For testing purposes, notifications can be sent in a file. Be sure to map the volume in docker-compose.
   filesystem:

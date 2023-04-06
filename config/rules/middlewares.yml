@@ -87,7 +87,7 @@ http:
           Cross-Origin-Resource-Policy: same-site
           Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=(), vr=()
           Referrer-Policy: strict-origin-when-cross-origin
-          Strict-Transport-Security: max-age=31536000; includeSubDomains; preload; always;
+          Strict-Transport-Security: max-age=31536000; includeSubDomains; preload;
           Vary: ORIGIN
           X-Content-Type-Options: nosniff
           X-Frame-Options: SAMEORIGIN

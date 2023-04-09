@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3.0.2
       - name: SSH SCP | Copy docker-compose.yml
-        uses: appleboy/scp-action@v0.1.3
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
@@ -31,7 +31,7 @@ jobs:
           target: ${{ env.TARGET_DIR }}
           rm: true
       - name: SSH SCP | Copy /config
-        uses: appleboy/scp-action@v0.1.3
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}

@@ -42,13 +42,6 @@ http:
         excludedContentTypes:
           - text/event-stream
 
-    error-pages-middleware:
-      errors:
-        status:
-          - "400-599"
-        service: error-pages
-        query: "/{status}.html"
-
     rate-limit-middleware:
       rateLimit:
         average: 250

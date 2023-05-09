@@ -41,6 +41,23 @@ services:
       - traefik.http.routers.traefik.tls.domains[0].sans=*.${DOMAIN_NAME}
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     
+  nginx-error-pages:
+    image: nginx:1.23.4
+    container_name: nginx-error-pages
+    restart: unless-stopped
+    cpus: 1
+    mem_limit: 1G
+    volumes:
+      - ${USER_DIR}/config/nginx:/usr/share/nginx:ro
+    labels:
+      - diun.enable=true
+      - traefik.enable=true
+      - traefik.http.routers.nginx-error-pages.entrypoints=web
+      - traefik.http.routers.nginx-error-pages.rule=HostRegexp(`{host:.+}`)
+      - traefik.http.routers.nginx-error-pages.priority=1
+      - traefik.http.routers.nginx-error-pages.middlewares=chain-error-pages@file
+      - traefik.http.services.nginx-error-pages.loadbalancer.server.port=80
+
   # Cloudflare DDNS - Dynamic DNS Updater
   cf-ddns:
     image: oznu/cloudflare-ddns:latest
@@ -67,8 +84,8 @@ services:
       - TZ=${TZ}
       - TRAEFIK_VERSION=2
       - CF_EMAIL=${CLOUDFLARE_EMAIL} # Same as traefik
-      # - CF_TOKEN=${CLOUDFLARE_API_TOKEN} # Scoped api token not working. Error 10000.
       - CF_TOKEN=${CLOUDFLARE_API_KEY} # Same as traefik
+      - DEFAULT_TTL=1
       - TARGET_DOMAIN=${DOMAIN_NAME}
       - DOMAIN1=${DOMAIN_NAME}
       - DOMAIN1_ZONE_ID=${CLOUDFLARE_ZONE_ID}

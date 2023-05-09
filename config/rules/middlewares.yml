@@ -31,6 +31,10 @@ http:
         memRequestBodyBytes: 2000000
         maxResponseBodyBytes: 2000000
         memResponseBodyBytes: 2000000
+
+    circuit-breaker-middleware:
+      circuitBreaker:
+        expression: "LatencyAtQuantileMS(50.0) > 100"
     
     compress-middleware:
       compress:
@@ -38,14 +42,10 @@ http:
         excludedContentTypes:
           - text/event-stream
 
-    circuit-breaker-middleware:
-      circuitBreaker:
-        expression: "LatencyAtQuantileMS(50.0) > 100"
-
     errorpage-middleware:
       errors:
         status:
-          - "400-499"
+          - "400-599"
         service: serviceError
         query: "/{status}.html"
 

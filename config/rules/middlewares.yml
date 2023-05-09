@@ -46,7 +46,7 @@ http:
       errors:
         status:
           - "400-599"
-        service: serviceError
+        service: error-pages
         query: "/{status}.html"
 
     rate-limit-middleware:

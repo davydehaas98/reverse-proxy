@@ -55,9 +55,10 @@ services:
       - traefik.http.routers.error-pages.entrypoints=web
       - traefik.http.routers.error-pages.rule=HostRegexp(`{host:.+}`)
       - traefik.http.routers.error-pages.priority=1
-      - traefik.http.routers.error-pages.middlewares=error-pages
+      - traefik.http.routers.error-pages.middlewares=error-pages@docker
       - traefik.http.middlewares.error-pages.errors.status=400-599
       - traefik.http.middlewares.error-pages.errors.query=/{status}.html
+      - traefik.http.middlewares.error-pages.errors.services=error-pages@docker
       - traefik.http.services.error-pages.loadbalancer.server.port=80
 
   # Cloudflare DDNS - Dynamic DNS Updater

@@ -53,9 +53,9 @@ services:
       - diun.enable=true
       - traefik.enable=true
       - traefik.http.routers.nginx-error-pages.entrypoints=web
-      - traefik.http.routers.nginx-error-pages.rule=HostRegexp(`{host:.+}`)
+      - traefik.http.routers.nginx-error-pages.middlewares=error-pages-middleware@file
       - traefik.http.routers.nginx-error-pages.priority=1
-      - traefik.http.routers.nginx-error-pages.middlewares=chain-error-pages@file
+      - traefik.http.routers.nginx-error-pages.rule=HostRegexp(`{host:.+}`)
       - traefik.http.services.nginx-error-pages.loadbalancer.server.port=80
 
   # Cloudflare DDNS - Dynamic DNS Updater

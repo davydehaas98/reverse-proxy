@@ -27,6 +27,11 @@ http:
           - secure-headers-middleware
           - authelia-middleware
 
+    chain-error-pages:
+      chain:
+        middlewares:
+          - errorpage-middleware
+
     chain-oauth:
       chain:
         middlewares:

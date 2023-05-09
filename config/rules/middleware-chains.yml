@@ -30,7 +30,7 @@ http:
     chain-error-pages:
       chain:
         middlewares:
-          - errorpage-middleware
+          - error-pages-middleware
 
     chain-oauth:
       chain:

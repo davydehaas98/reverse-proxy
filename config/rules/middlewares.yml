@@ -42,7 +42,7 @@ http:
         excludedContentTypes:
           - text/event-stream
 
-    errorpage-middleware:
+    error-pages-middleware:
       errors:
         status:
           - "400-599"

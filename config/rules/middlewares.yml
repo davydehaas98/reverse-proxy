@@ -1,12 +1,11 @@
 http:
   middlewares:
     # --- AUTHENTICATION --- 
-    basic-auth-middleware:
+    basic-auth:
       basicAuth:
         realm: Traefik2 Basic Auth
         usersFile: /shared/.htpasswd
-        
-    authelia-middleware:
+    authelia:
       forwardAuth:
         address: http://authelia:9091/api/verify?rd=https://authelia.davydehaas.nl/
         trustForwardHeader: true
@@ -15,53 +14,45 @@ http:
           - Remote-Groups
           - Remote-Name
           - Remote-Email
-          
-    oauth-middleware:
+    oauth:
       forwardAuth:
         address: http://oauth:4181
         trustForwardHeader: true
         authResponseHeaders:
           - X-Forwarded-User
-          
     # --- SETTINGS ---
-    buffering-middleware:
+    buffering:
       buffering:
         retryExpression: "IsNetworkError() && Attempts() < 2"
         maxRequestBodyBytes: 2000000
         memRequestBodyBytes: 2000000
         maxResponseBodyBytes: 2000000
         memResponseBodyBytes: 2000000
-
-    circuit-breaker-middleware:
+    circuit-breaker:
       circuitBreaker:
         expression: "LatencyAtQuantileMS(50.0) > 100"
-    
-    compress-middleware:
+    compress:
       compress:
         minResponseBodyBytes: 1024
         excludedContentTypes:
           - text/event-stream
-
-    rate-limit-middleware:
+    rate-limit:
       rateLimit:
         average: 250
         period: 1m
         burst: 100
-
-    retry-middleware:
+    retry:
       retry:
         attempts: 4
         initialInterval: 100ms
-
     # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#
-    nextcloud-middleware:
+    nextcloud:
       redirectRegex:
         permanent: true
         regex: "https://(.*)/.well-known/(card|cal)dav"
         replacement: "https://${1}/remote.php/dav/"
-        
     # --- SECURITY ---
-    secure-headers-middleware:
+    secure-headers:
       headers:
         accessControlAllowOriginList: 
           - https://davydehaas.nl

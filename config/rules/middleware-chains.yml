@@ -4,42 +4,38 @@ http:
     chain-no-auth:
       chain:
         middlewares:
-          - compress-middleware
-          - rate-limit-middleware
-          - retry-middleware
-          - secure-headers-middleware
-
+          - compress
+          - rate-limit
+          - retry
+          - secure-headers
     chain-basic-auth:
       chain:
         middlewares:
-          - compress-middleware
-          - rate-limit-middleware
-          - retry-middleware
-          - secure-headers-middleware
-          - basic-auth-middleware
-
+          - compress-response
+          - rate-limit
+          - retry
+          - secure-headers
+          - basic-auth
     chain-authelia:
       chain:
         middlewares:
-          - compress-middleware
-          - rate-limit-middleware
-          - retry-middleware
-          - secure-headers-middleware
-          - authelia-middleware
-
+          - compress
+          - rate-limit
+          - retry
+          - secure-headers
+          - authelia
     chain-oauth:
       chain:
         middlewares:
-          - compress-middleware
-          - rate-limit-middleware
-          - retry-middleware
-          - secure-headers-middleware
-          - oauth-middleware
-
+          - compress
+          - rate-limit
+          - retry
+          - secure-headers
+          - oauth
     chain-nextcloud:
       chain:
         middlewares:
-          - rate-limit-middleware
-          - retry-middleware
-          - secure-headers-middleware
-          - nextcloud-middleware
+          - rate-limit
+          - retry
+          - secure-headers
+          - nextcloud

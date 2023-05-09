@@ -35,8 +35,8 @@ services:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)
-      - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=chain-authelia@file
+      - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.tls.domains[0].main=${DOMAIN_NAME}
       - traefik.http.routers.traefik.tls.domains[0].sans=*.${DOMAIN_NAME}
       - traefik.http.services.traefik.loadbalancer.server.port=8080
@@ -53,13 +53,12 @@ services:
       - diun.enable=true
       - traefik.enable=true
       - traefik.http.routers.error-pages.entrypoints=web
-      - traefik.http.routers.error-pages.priority=1
       - traefik.http.routers.error-pages.rule=HostRegexp(`{host:.+}`)
-      - traefik.http.routers.error-pages.middlewares=error-pages-middleware
-      - traefik.http.middlewares.error-pages-middleware.errors.status=400-599
-      - traefik.http.middlewares.error-pages-middleware.errors.query=/{status}.html
-      - traefik.http.middlewares.error-pages-middleware.services=error-pages-service
-      - traefik.http.services.error-pages-service.loadbalancer.server.port=80
+      - traefik.http.routers.error-pages.priority=1
+      - traefik.http.routers.error-pages.middlewares=error-pages
+      - traefik.http.middlewares.error-pages.errors.status=400-599
+      - traefik.http.middlewares.error-pages.errors.query=/{status}.html
+      - traefik.http.services.error-pages.loadbalancer.server.port=80
 
   # Cloudflare DDNS - Dynamic DNS Updater
   cf-ddns:

@@ -17,7 +17,7 @@ jobs:
    deploy:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - name: SSH SCP | Copy docker-compose.yml
         uses: appleboy/scp-action@v0.1.4
         with:

@@ -69,7 +69,7 @@ services:
     environment:
       - API_KEY=${CLOUDFLARE_API_TOKEN}
       - ZONE=${DOMAIN_NAME}
-      - PROXIED=true
+      - PROXIED=false
       - RRTYPE=A
       - DELETE_ON_STOP=false
       - DNS_SERVER=1.1.1.1
@@ -92,7 +92,7 @@ services:
       - TARGET_DOMAIN=${DOMAIN_NAME}
       - DOMAIN1=${DOMAIN_NAME}
       - DOMAIN1_ZONE_ID=${CLOUDFLARE_ZONE_ID}
-      - DOMAIN1_PROXIED=TRUE
+      - DOMAIN1_PROXIED=false
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:

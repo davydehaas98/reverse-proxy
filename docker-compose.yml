@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   reverse-proxy:
-    image: traefik:v2.10.1
+    image: traefik:v2.9.10
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 1
@@ -42,7 +42,7 @@ services:
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     
   nginx-error-pages:
-    image: nginx:1.24.0
+    image: nginx:1.25.2
     container_name: nginx-error-pages
     restart: unless-stopped
     cpus: 1
@@ -78,7 +78,7 @@ services:
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
-    image: tiredofit/traefik-cloudflare-companion:7.1.0
+    image: tiredofit/traefik-cloudflare-companion:7.1.1
     container_name: cf-companion
     restart: unless-stopped
     environment:

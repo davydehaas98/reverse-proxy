@@ -111,7 +111,7 @@ services:
     container_name: authelia
     restart: unless-stopped
     cpus: 0.1
-    mem_limit: 1024m
+    mem_limit: 2048m
     environment:
       - PGID=${PGID}
       - PUID=${PUID}

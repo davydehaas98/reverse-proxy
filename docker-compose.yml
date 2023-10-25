@@ -46,7 +46,7 @@ services:
     container_name: nginx-error-pages
     restart: unless-stopped
     cpus: 0.01
-    mem_limit:32m
+    mem_limit: 32m
     volumes:
       - ${USER_DIR}/config/nginx:/usr/share/nginx:ro
     labels:

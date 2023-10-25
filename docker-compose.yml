@@ -110,8 +110,8 @@ services:
     image: authelia/authelia:4.37.5
     container_name: authelia
     restart: unless-stopped
-    cpus: 1
-    mem_limit: 256m
+    # cpus: 1
+    # mem_limit: 256m
     environment:
       - PGID=${PGID}
       - PUID=${PUID}
@@ -134,8 +134,8 @@ services:
     # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
     container_name: oauth
     restart: unless-stopped
-    cpus: 0.1
-    mem_limit: 8m
+    # cpus: 0.1
+    # mem_limit: 8m
     security_opt:
       - no-new-privileges:true
     environment:

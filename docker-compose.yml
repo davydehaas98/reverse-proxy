@@ -4,8 +4,8 @@ services:
     image: traefik:2.10.7
     container_name: reverse-proxy
     restart: unless-stopped
-    cpus: 0.01
-    mem_limit: 256m
+    cpus: 2
+    mem_limit: 4096m
     environment:
       - PGID=${PGID}
       - PUID=${PUID}
@@ -45,7 +45,7 @@ services:
     image: nginx:1.25.3
     container_name: nginx-error-pages
     restart: unless-stopped
-    cpus: 0.01
+    cpus: 0.1
     mem_limit: 32m
     volumes:
       - ${USER_DIR}/config/nginx:/usr/share/nginx:ro
@@ -67,7 +67,7 @@ services:
     container_name: cf-ddns
     restart: unless-stopped
     cpus: 0.01
-    mem_limit: 8m
+    mem_limit: 16m
     environment:
       - API_KEY=${CLOUDFLARE_API_TOKEN}
       - ZONE=${DOMAIN_NAME}
@@ -111,7 +111,7 @@ services:
     container_name: authelia
     restart: unless-stopped
     cpus: 4
-    mem_limit: 4096m
+    mem_limit: 8192m
     environment:
       - PGID=${PGID}
       - PUID=${PUID}
@@ -134,8 +134,8 @@ services:
     # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
     container_name: oauth
     restart: unless-stopped
-    cpus: 0.01
-    mem_limit: 8m
+    cpus: 0.1
+    mem_limit: 64m
     security_opt:
       - no-new-privileges:true
     environment:

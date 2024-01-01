@@ -45,7 +45,7 @@ jobs:
           strip_components: 1
           rm: true
       - name: SSH | Start containers
-        uses: appleboy/ssh-action@v1.0.1
+        uses: appleboy/ssh-action@v1.0.2
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}

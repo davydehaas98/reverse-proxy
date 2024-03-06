@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   reverse-proxy:
-    image: traefik:v2.11.0
+    image: traefik:v2.11.0@sha256:4be302e188b5be7637a3404033e8088c005059fd29e05b7ff04a403fac3d13ea
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 2
@@ -42,7 +42,7 @@ services:
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     
   nginx-error-pages:
-    image: nginx:1.25.4
+    image: nginx:1.25.4@sha256:c26ae7472d624ba1fafd296e73cecc4f93f853088e6a9c13c0d52f6ca5865107
     container_name: nginx-error-pages
     restart: unless-stopped
     cpus: 0.1
@@ -63,7 +63,7 @@ services:
 
   # Cloudflare DDNS - Dynamic DNS Updater
   cf-ddns:
-    image: oznu/cloudflare-ddns:latest
+    image: oznu/cloudflare-ddns:latest@sha256:19bd73d8aea9641dc329ec18ae693b2b9c33ff7cdc007f368266ce584446f995
     container_name: cf-ddns
     restart: unless-stopped
     cpus: 0.01
@@ -80,7 +80,7 @@ services:
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
-    image: tiredofit/traefik-cloudflare-companion:7.2.0
+    image: tiredofit/traefik-cloudflare-companion:7.2.0@sha256:3cb8d8ea9c35a5ff58120261e16723650468835d25130a53326679a109084a24
     container_name: cf-companion
     restart: unless-stopped
     cpus: 0.01
@@ -107,7 +107,7 @@ services:
       
   # Authelia - IAM
   authelia:
-    image: authelia/authelia:4.37.5
+    image: authelia/authelia:4.37.5@sha256:25fc5423238b6f3a1fc967fda3f6a9212846aeb4a720327ef61c8ccff52dbbe2
     container_name: authelia
     restart: unless-stopped
     cpus: 4
@@ -130,7 +130,7 @@ services:
       
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   oauth:
-    image: thomseddon/traefik-forward-auth:2.2.0
+    image: thomseddon/traefik-forward-auth:2.2.0@sha256:e875194d67e21c077f3de0b9d315bb3023a226f2cac81ddd9d02a4250ed89b4b
     # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
     container_name: oauth
     restart: unless-stopped

@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   reverse-proxy:
-    image: traefik:v2.11.0@sha256:31798dbdea383c4e8000af1a0e0e6672ee67655b4e4fbc84a9f7991e1f539dd4
+    image: traefik:v2.11.0@sha256:0a5157f742d2900389da6ce60ea80cc476801dc951917a993cd848d982f58265
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 2

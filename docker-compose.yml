@@ -107,7 +107,7 @@ services:
       
   # Authelia - IAM
   authelia:
-    image: authelia/authelia:4.38.2@sha256:a1a2d1b2befab7faa0bb8c68c791c26b28c517b1fd6e1eec05d4335ffbf9aeaa
+    image: authelia/authelia:4.38.4@sha256:b92ad6ed6050baf91aa554abeea0f942f8fb798b62f835b1eaa3c8eeb4705f54
     container_name: authelia
     restart: unless-stopped
     cpus: 4

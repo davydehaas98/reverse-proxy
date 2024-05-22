@@ -1,6 +1,6 @@
 services:
   reverse-proxy:
-    image: traefik:2.11.2@sha256:c6f6001dd1fc09fb0ae47ad2198102c40a8d9586c02d6040d561fd4fb7e91f45
+    image: traefik:v2.11.3@sha256:69142435bafaf5bb5ab984b9039e1a50b208b6578f8bf2d6c595c67dde3e9713
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 2

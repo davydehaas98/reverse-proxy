@@ -2,8 +2,6 @@
 api:
   insecure: false
   dashboard: true
-experimental:
-  http3: true
 global:
   checkNewVersion: true
   sendAnonymousUsage: false
@@ -15,7 +13,6 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     network: reverse-proxy_default
-    swarmMode: false
     watch: true
   file:
     # Load dynamic configuration from one or more .toml or .yml files in a directory.

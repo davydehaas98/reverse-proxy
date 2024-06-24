@@ -79,7 +79,7 @@ services:
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
-    image: tiredofit/traefik-cloudflare-companion:7.2.0@sha256:3cb8d8ea9c35a5ff58120261e16723650468835d25130a53326679a109084a24
+    image: tiredofit/traefik-cloudflare-companion:7.2.4@sha256:9931bea3ea5d9d05aca21424f8ea3ccc63d2d40c9ec2b61be28d14f331f442f4
     container_name: cf-companion
     restart: unless-stopped
     cpus: 0.01

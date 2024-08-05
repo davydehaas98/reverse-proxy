@@ -1,6 +1,6 @@
 services:
   reverse-proxy:
-    image: traefik:v3.0.1@sha256:7ca3233c2d4d862db071aceba4355bb430065ec00d818b6b4724c09f2a6a2783
+    image: traefik:v3.1.1@sha256:9f68c02f50786068f6687128ae8e8632b0bc24bc806705c9ff9fcbe9e38d19ae
     container_name: reverse-proxy
     restart: unless-stopped
     cpus: 2
@@ -41,7 +41,7 @@ services:
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     
   nginx-error-pages:
-    image: nginx:1.27.0@sha256:0f04e4f646a3f14bf31d8bc8d885b6c951fdcf42589d06845f64d18aec6a3c4d
+    image: nginx:1.27.0@sha256:67682bda769fae1ccf5183192b8daf37b64cae99c6c3302650f6f8bf5f0f95df
     container_name: nginx-error-pages
     restart: unless-stopped
     cpus: 0.1
@@ -79,7 +79,7 @@ services:
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
-    image: tiredofit/traefik-cloudflare-companion:7.2.0@sha256:3cb8d8ea9c35a5ff58120261e16723650468835d25130a53326679a109084a24
+    image: tiredofit/traefik-cloudflare-companion:7.3.1@sha256:c3aec9ff4f5ef5214678b6b72d299176a21c295664ff3297ac8b50fdd5788d76
     container_name: cf-companion
     restart: unless-stopped
     cpus: 0.01
@@ -106,7 +106,7 @@ services:
       
   # Authelia - IAM
   authelia:
-    image: authelia/authelia:4.38.8@sha256:19375b10024caeef4e0b119a6247beae84cbaa02c846cfd750e92dea910d4b6a
+    image: authelia/authelia:4.38.9@sha256:491745686a70863b33a9978795e13fdeb8bc82e4fcfa456bf30f788827114cb0
     container_name: authelia
     restart: unless-stopped
     cpus: 4

@@ -41,7 +41,7 @@ services:
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     
   nginx-error-pages:
-    image: nginx:1.27.0@sha256:67682bda769fae1ccf5183192b8daf37b64cae99c6c3302650f6f8bf5f0f95df
+    image: nginx:1.27.1@sha256:1540e37eebb9abc5afa4256de1bade6542d50bf69b61b1dd855cb7804aaaf444
     container_name: nginx-error-pages
     restart: unless-stopped
     cpus: 0.1

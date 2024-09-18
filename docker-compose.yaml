@@ -5,9 +5,10 @@ services:
     restart: unless-stopped
     cpus: 2
     mem_limit: 4096m
+    user: ${UID}:${GID}
     environment:
-      - PGID=${PGID}
-      - PUID=${PUID}
+      - PGID=${UID}
+      - PUID=${GID}
       - TZ=${TZ}
       - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
       - CF_API_KEY=${CLOUDFLARE_API_KEY}
@@ -46,6 +47,7 @@ services:
     restart: unless-stopped
     cpus: 0.1
     mem_limit: 32m
+    user: ${UID}:${GID}
     volumes:
       - ${USER_DIR}/config/nginx:/usr/share/nginx:ro
     labels:
@@ -67,6 +69,7 @@ services:
     restart: unless-stopped
     cpus: 0.01
     mem_limit: 16m
+    user: ${UID}:${GID}
     environment:
       - API_KEY=${CLOUDFLARE_API_TOKEN}
       - ZONE=${DOMAIN_NAME}
@@ -84,9 +87,10 @@ services:
     restart: unless-stopped
     cpus: 0.01
     mem_limit: 128m
+    user: ${UID}:${GID}
     environment:
-      - PGID=${PGID}
-      - PUID=${PUID}
+      - PGID=${GID}
+      - PUID=${UID}
       - TZ=${TZ}
       - TRAEFIK_VERSION=2
       - CF_EMAIL=${CLOUDFLARE_EMAIL} # Same as traefik
@@ -111,9 +115,8 @@ services:
     restart: unless-stopped
     cpus: 4
     mem_limit: 8192m
+    user: ${UID}:${GID}
     environment:
-      - PGID=${PGID}
-      - PUID=${PUID}
       - TZ=${TZ}
     expose:
       - 9091
@@ -135,6 +138,7 @@ services:
     restart: unless-stopped
     cpus: 0.1
     mem_limit: 64m
+    user: ${UID}:${GID}
     security_opt:
       - no-new-privileges:true
     environment:

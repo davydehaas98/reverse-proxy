@@ -7,8 +7,6 @@ services:
     mem_limit: 4096m
     user: ${UID}:${GID}
     environment:
-      - PGID=${UID}
-      - PUID=${GID}
       - TZ=${TZ}
       - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
       - CF_API_KEY=${CLOUDFLARE_API_KEY}
@@ -89,8 +87,6 @@ services:
     mem_limit: 128m
     user: ${UID}:${GID}
     environment:
-      - PGID=${GID}
-      - PUID=${UID}
       - TZ=${TZ}
       - TRAEFIK_VERSION=2
       - CF_EMAIL=${CLOUDFLARE_EMAIL} # Same as traefik

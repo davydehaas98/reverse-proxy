@@ -56,7 +56,7 @@ jobs:
             cd ${{ env.TARGET_DIR }}
             
             echo 'UID=${{ env.UID }}' >> .env
-            echo 'UID=${{ env.UID }}' >> .env
+            echo 'GID=${{ env.GID }}' >> .env
             echo 'TZ=${{ env.TZ }}' >> .env
             echo 'USER_DIR=${{ env.USER_DIR }}' >> .env
             echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env

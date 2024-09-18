@@ -7,8 +7,8 @@ concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: false
 env:
-  PGID: 1000
-  PUID: 1000
+  GID: 1400
+  UID: 1400
   TZ: Etc/UTC
   TARGET_DIR: /home/homelab/compose/reverse-proxy
   USER_DIR: /home/homelab/reverse-proxy
@@ -55,8 +55,8 @@ jobs:
           script: |          
             cd ${{ env.TARGET_DIR }}
             
-            echo 'PGID=${{ env.PGID }}' >> .env
-            echo 'PUID=${{ env.PUID }}' >> .env
+            echo 'PGID=${{ env.GID }}' >> .env
+            echo 'PUID=${{ env.GID }}' >> .env
             echo 'TZ=${{ env.TZ }}' >> .env
             echo 'USER_DIR=${{ env.USER_DIR }}' >> .env
             echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env

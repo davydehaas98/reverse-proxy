@@ -44,9 +44,9 @@ accessLog:
     statuscodes: 400-499
     retryAttempts: true
     minDuration: 10ms
-log:
-  filePath: /traefik.log
-  level: WARN
+# log:
+#   filePath: /traefik.log
+#   level: WARN
 serversTransport:
   insecureSkipVerify: true
 certificatesResolvers:

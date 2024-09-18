@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
     cpus: 0.1
     mem_limit: 32m
-    user: ${UID}:${GID}
+    # user: ${UID}:${GID}
     volumes:
       - ${USER_DIR}/config/nginx:/usr/share/nginx:ro
     labels:

@@ -28,6 +28,12 @@ services:
       - --configFile=/config/traefik.yml
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
+    healthcheck:
+      test: traefik healthcheck --ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
     labels:
       - diun.enable=true
       - traefik.enable=true
@@ -46,8 +52,16 @@ services:
     cpus: 0.1
     mem_limit: 32m
     # user: ${UID}:${GID}
+    expose:
+      - 80
     volumes:
-      - ${USER_DIR}/config/nginx:/usr/share/nginx:ro
+      - ${USER_DIR}/config/nginx:/usr/share/nginx:ro        
+    healthcheck:
+      test: curl --fail http://localhost:80/ || exit 1
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
     labels:
       - diun.enable=true
       - traefik.enable=true
@@ -118,6 +132,12 @@ services:
       - 9091
     volumes:
       - ${USER_DIR}/authelia/config:/config
+    healthcheck:
+      test: curl --fail http://localhost:9091/ || exit 1
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
     labels:
       - diun.enable=true
       - traefik.enable=true

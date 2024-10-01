@@ -19,11 +19,9 @@ services:
       - 3179:3179/tcp
       - 3179:3179/udp
     volumes:
-      # touch ${USER_DIR}/acme/acme.json
-      # chmod 600 ${USER_DIR}/acme/acme.json
       - ${USER_DIR}/acme:/etc/traefik/acme
       - ${USER_DIR}/config:/config:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --configFile=/config/traefik.yml
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}

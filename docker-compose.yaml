@@ -23,7 +23,7 @@ services:
       - ${USER_DIR}/traefik/config:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
-      - --configFile=/etc/traefik/traefik.yml
+      - --configFile=/etc/traefik/traefik.yaml
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
     # healthcheck:

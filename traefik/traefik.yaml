@@ -53,13 +53,13 @@ certificatesResolvers:
   dns-resolver-cloudflare:
     acme:
       keyType: EC384
-      storage: /letsencrypt/acme.json
-      dnsChallenge:
-        provider: cloudflare
+      # storage: /letsencrypt/acme.json
       # LetsEncrypt Staging Server
       # Uncomment both lines below to test
       caServer: https://acme-staging-v02.api.letsencrypt.org/directory
       storage: /letsencrypt/acme.staging.json
+      dnsChallenge:
+        provider: cloudflare
 entryPoints:
   traefik:
     address: :8080

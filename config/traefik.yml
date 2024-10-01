@@ -16,7 +16,7 @@ providers:
     watch: true
   file:
     # Load dynamic configuration from one or more .toml or .yml files in a directory.
-    directory: /config/rules
+    directory: /etc/traefik/config/rules
     # Only works on top level files in the rules folder
     watch: true
 metrics:

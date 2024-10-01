@@ -24,9 +24,10 @@ jobs:
             mkdir -p ~/.ssh
             echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519
-            ssh homelab@${{ secrets.SSH_HOST }}
+            ssh homelab@$SSH_HOST
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
       - name: SSH SCP | Copy docker-compose.yaml
         shell: bash
         run: |

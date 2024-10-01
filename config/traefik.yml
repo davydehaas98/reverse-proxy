@@ -57,7 +57,7 @@ certificatesResolvers:
       dnsChallenge:
         provider: cloudflare
       # LetsEncrypt Staging Server - uncomment when testing
-      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
 entryPoints:
   traefik:
     address: :8080

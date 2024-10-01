@@ -33,7 +33,7 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
-      start_period: 60s
+      # start_period: 30s
     labels:
       - diun.enable=true
       - traefik.enable=true

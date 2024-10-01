@@ -22,9 +22,10 @@ jobs:
       - name: Setup SSH
         run: |
             mkdir -p ~/.ssh
-            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+            echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519
-            ssh homelab@$SSH_HOST
+            ssh-keyscan -H ${SSH_HOST} >> ~/.ssh/known_hosts
+            ssh homelab@${SSH_HOST}
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}

@@ -31,7 +31,7 @@ jobs:
           source: docker-compose.yaml
           target: ${{ env.TARGET_DIR }}
           rm: true
-      - name: SSH SCP | Copy /config
+      - name: SSH SCP | Copy /traefik directory
         uses: appleboy/scp-action@917f8b81dfc1ccd331fef9e2d61bdc6c8be94634 # v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -39,9 +39,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: config/
-          target: ${{ env.USER_DIR }}/config
-          # strip /config
+          source: traefik/
+          target: ${{ env.USER_DIR }}/traefik
+          # strip /traefik
           strip_components: 1
           rm: true
       - name: SSH | Start containers
@@ -52,7 +52,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: |          
+          script: |
             cd ${{ env.TARGET_DIR }}
             
             echo 'UID=${{ env.UID }}' >> .env

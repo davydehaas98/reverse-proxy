@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     cpus: 2
     mem_limit: 4096m
-    user: ${UID}:${GID}
+    # user: ${UID}:${GID}
     environment:
       - TZ=${TZ}
       - CF_API_EMAIL=${CLOUDFLARE_EMAIL}

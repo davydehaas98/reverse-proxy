@@ -44,35 +44,6 @@ services:
       - traefik.http.routers.traefik.tls.domains[0].main=${DOMAIN_NAME}
       - traefik.http.routers.traefik.tls.domains[0].sans=*.${DOMAIN_NAME}
       - traefik.http.services.traefik.loadbalancer.server.port=8080
-    
-  nginx-error-pages:
-    image: nginx:1.27.1@sha256:135fbc7ed19c8f644ddf678e68292e678696908451dad7ee2fd4e0cf861f4b6f
-    container_name: nginx-error-pages
-    restart: unless-stopped
-    cpus: 0.1
-    mem_limit: 32m
-    user: ${UID}:${GID}
-    expose:
-      - 80
-    volumes:
-      - ${USER_DIR}/config/nginx:/usr/share/nginx:ro        
-    # healthcheck:
-    #   test: curl --fail http://localhost:80/ || exit 1
-    #   interval: 30s
-    #   timeout: 30s
-    #   retries: 3
-    #   start_period: 60s
-    labels:
-      - diun.enable=true
-      - traefik.enable=true
-      - traefik.http.routers.error-pages.entrypoints=web
-      - traefik.http.routers.error-pages.rule=HostRegexp(`{host:.+}`)
-      - traefik.http.routers.error-pages.priority=1
-      - traefik.http.routers.error-pages.middlewares=error-pages@docker
-      - traefik.http.middlewares.error-pages.errors.status=400-599
-      - traefik.http.middlewares.error-pages.errors.query=/{status}.html
-      - traefik.http.middlewares.error-pages.errors.services=error-pages@docker
-      - traefik.http.services.error-pages.loadbalancer.server.port=80
 
   # Cloudflare DDNS - Dynamic DNS Updater
   cf-ddns:

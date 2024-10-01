@@ -20,10 +20,10 @@ services:
       - 3179:3179/udp
     volumes:
       - ${USER_DIR}/acme:/etc/traefik/acme
-      - ${USER_DIR}/config:/config:ro
+      - ${USER_DIR}/config:/etc/traefik/config:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
-      - --configFile=/config/traefik.yml
+      - --configFile=/etc/traefik/config/traefik.yml
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
     # healthcheck:

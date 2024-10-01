@@ -28,11 +28,11 @@ services:
       - --configFile=/config/traefik.yml
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
-    healthcheck:
-      test: traefik healthcheck --ping
-      interval: 30s
-      timeout: 30s
-      retries: 3
+    # healthcheck:
+    #   test: traefik healthcheck --ping
+    #   interval: 30s
+    #   timeout: 30s
+    #   retries: 3
       # start_period: 30s
     labels:
       - diun.enable=true

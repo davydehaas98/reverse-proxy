@@ -28,7 +28,7 @@ jobs:
       - name: SSH SCP | Copy files
         run: |
           scp -o StrictHostKeyChecking=no ./docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
-          scp -o StrictHostKeyChecking=no -r ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}
+          scp -o StrictHostKeyChecking=no -r ./traefik/* homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}/traefik/config
       - name: SSH | Start containers
         shell: bash
         run: |

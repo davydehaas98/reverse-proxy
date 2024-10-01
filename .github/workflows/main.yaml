@@ -22,20 +22,17 @@ jobs:
       - name: Setup SSH
         run: |
             mkdir -p ~/.ssh
-            echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519
-            ssh-keyscan -H ${SSH_HOST} >> ~/.ssh/known_hosts
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-      - name: SSH SCP | Copy docker-compose.yaml
-        shell: bash
+            ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: SSH SCP | Copy files
         run: |
           scp -o StrictHostKeyChecking=no ./docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
           scp -o StrictHostKeyChecking=no -r ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}
       - name: SSH | Start containers
+        shell: bash
         run: |
-          ssh homelab@@${{ secrets.SSH_HOST }}
+          ssh homelab@${{ secrets.SSH_HOST }}
           cd ${{ env.TARGET_DIR }}
           
           echo 'UID=${{ env.UID }}' >> .env

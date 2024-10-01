@@ -31,42 +31,26 @@ jobs:
       - name: SSH SCP | Copy docker-compose.yaml
         shell: bash
         run: |
-            scp -o StrictHostKeyChecking=accept-new ./docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
-      - name: SSH SCP | Copy /traefik directory
-        uses: appleboy/scp-action@917f8b81dfc1ccd331fef9e2d61bdc6c8be94634 # v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: traefik/
-          target: ${{ env.USER_DIR }}/traefik/config
-          rm: true
-          # strip /traefik
-          strip_components: 1
+          scp -o StrictHostKeyChecking=no ./docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
+          scp -o StrictHostKeyChecking=no ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}/traefik
       - name: SSH | Start containers
-        uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262 # v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ${{ env.TARGET_DIR }}
-            
-            echo 'UID=${{ env.UID }}' >> .env
-            echo 'GID=${{ env.GID }}' >> .env
-            echo 'TZ=${{ env.TZ }}' >> .env
-            echo 'USER_DIR=${{ env.USER_DIR }}' >> .env
-            echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
-            
-            echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
-            echo 'CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}' >> .env
-            echo 'CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }}' >> .env
-            echo 'CLOUDFLARE_ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }}' >> .env
+        run: |
+          ssh homelab@@${{ secrets.SSH_HOST }}
+          cd ${{ env.TARGET_DIR }}
+          
+          echo 'UID=${{ env.UID }}' >> .env
+          echo 'GID=${{ env.GID }}' >> .env
+          echo 'TZ=${{ env.TZ }}' >> .env
+          echo 'USER_DIR=${{ env.USER_DIR }}' >> .env
+          echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
+          
+          echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
+          echo 'CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}' >> .env
+          echo 'CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }}' >> .env
+          echo 'CLOUDFLARE_ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }}' >> .env
+  
+          echo 'OAUTH_SECRET=${{ secrets.OAUTH_SECRET }}' >> .env
+          echo 'GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' >> .env
+          echo 'GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}' >> .env
 
-            echo 'OAUTH_SECRET=${{ secrets.OAUTH_SECRET }}' >> .env
-            echo 'GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' >> .env
-            echo 'GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}' >> .env
-
-            docker compose up -d
+          docker compose up -d

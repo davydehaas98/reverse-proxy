@@ -20,15 +20,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
       - name: SSH SCP | Copy docker-compose.yaml
-        uses: appleboy/scp-action@917f8b81dfc1ccd331fef9e2d61bdc6c8be94634 # v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: docker-compose.yaml
-          target: ${{ env.TARGET_DIR }}
-          rm: true
+        run: |
+            mkdir -p ~/.ssh
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            chmod 700 ~/.ssh/id_rsa
+            ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+            scp -o StrictHostKeyChecking=no -r docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:/home/homelab/compose/reverse-proxy
       - name: SSH SCP | Copy /traefik directory
         uses: appleboy/scp-action@917f8b81dfc1ccd331fef9e2d61bdc6c8be94634 # v0.1.7
         with:

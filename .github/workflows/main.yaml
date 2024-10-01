@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: |
           scp -o StrictHostKeyChecking=no ./docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
-          scp -o StrictHostKeyChecking=no ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}/traefik
+          scp -o StrictHostKeyChecking=no -r ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}/traefik
       - name: SSH | Start containers
         run: |
           ssh homelab@@${{ secrets.SSH_HOST }}

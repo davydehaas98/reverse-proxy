@@ -19,8 +19,8 @@ services:
       - 3179:3179/tcp
       - 3179:3179/udp
     volumes:
-      - ${USER_DIR}/acme:/etc/traefik/acme
-      - ${USER_DIR}/config:/etc/traefik
+      - ${USER_DIR}/traefik/acme:/etc/traefik/acme
+      - ${USER_DIR}/traefik/config:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --configFile=/etc/traefik/config/traefik.yml

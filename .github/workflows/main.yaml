@@ -32,22 +32,23 @@ jobs:
       - name: SSH | Start containers
         shell: bash
         run: |
-          ssh homelab@${{ secrets.SSH_HOST }}
-          cd ${{ env.TARGET_DIR }}
-          
-          echo 'UID=${{ env.UID }}' >> .env
-          echo 'GID=${{ env.GID }}' >> .env
-          echo 'TZ=${{ env.TZ }}' >> .env
-          echo 'USER_DIR=${{ env.USER_DIR }}' >> .env
-          echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
-          
-          echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
-          echo 'CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}' >> .env
-          echo 'CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }}' >> .env
-          echo 'CLOUDFLARE_ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }}' >> .env
+          ssh homelab@${{ secrets.SSH_HOST }} "
+            cd ${{ env.TARGET_DIR }}
+            
+            echo 'UID=${{ env.UID }}' >> .env
+            echo 'GID=${{ env.GID }}' >> .env
+            echo 'TZ=${{ env.TZ }}' >> .env
+            echo 'USER_DIR=${{ env.USER_DIR }}' >> .env
+            echo 'DOMAIN_NAME=${{ env.DOMAIN_NAME }}' >> .env
+            
+            echo 'CLOUDFLARE_EMAIL=${{ secrets.CLOUDFLARE_EMAIL }}' >> .env
+            echo 'CLOUDFLARE_API_KEY=${{ secrets.CLOUDFLARE_API_KEY }}' >> .env
+            echo 'CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }}' >> .env
+            echo 'CLOUDFLARE_ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }}' >> .env
+    
+            echo 'OAUTH_SECRET=${{ secrets.OAUTH_SECRET }}' >> .env
+            echo 'GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' >> .env
+            echo 'GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}' >> .env
   
-          echo 'OAUTH_SECRET=${{ secrets.OAUTH_SECRET }}' >> .env
-          echo 'GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' >> .env
-          echo 'GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}' >> .env
-
-          docker compose up -d
+            docker compose up -d
+          "

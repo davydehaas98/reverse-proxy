@@ -40,10 +40,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: traefik/
-          target: ${{ env.USER_DIR }}/traefik
+          target: ${{ env.USER_DIR }}/traefik/config
+          rm: true
           # strip /traefik
           strip_components: 1
-          rm: true
       - name: SSH | Start containers
         uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262 # v1.0.3
         with:

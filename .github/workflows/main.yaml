@@ -19,13 +19,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - name: Setup SSH
+        run: |
+            mkdir -p ~/.ssh
+            echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
+            chmod 600 ~/.ssh/id_ed25519
+            ssh homelab@${{ secrets.SSH_HOST }}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: SSH SCP | Copy docker-compose.yaml
+        shell: bash
         run: |
             mkdir -p ~/.ssh
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-            chmod 700 ~/.ssh/id_ed25519
-            ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/id_ed25519
             scp -o StrictHostKeyChecking=accept-new ./docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
+        env: 
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: SSH SCP | Copy /traefik directory
         uses: appleboy/scp-action@917f8b81dfc1ccd331fef9e2d61bdc6c8be94634 # v0.1.7
         with:

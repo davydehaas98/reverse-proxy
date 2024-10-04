@@ -30,9 +30,8 @@ jobs:
           scp -o StrictHostKeyChecking=no ./docker-compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
           scp -o StrictHostKeyChecking=no -r ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}
       - name: SSH | Start containers
-        shell: bash
         run: |
-          ssh homelab@${{ secrets.SSH_HOST }} "
+          ssh homelab@${{ secrets.SSH_HOST }} <<EOF
             cd ${{ env.TARGET_DIR }}
             
             echo 'UID=${{ env.UID }}' >> .env
@@ -51,4 +50,4 @@ jobs:
             echo 'GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}' >> .env
   
             docker compose up -d
-          "
+          EOF

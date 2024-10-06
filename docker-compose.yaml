@@ -88,7 +88,7 @@ services:
       
   # Authelia - IAM
   authelia:
-    image: authelia/authelia:4.38.15@sha256:5badc1ed57afef3fbe27eb021410d13c9995cae7307950762bc7b68a0fabc284
+    image: ghcr.io/authelia/authelia:4.38.15@sha256:5badc1ed57afef3fbe27eb021410d13c9995cae7307950762bc7b68a0fabc284
     container_name: authelia
     restart: unless-stopped
     cpus: 4

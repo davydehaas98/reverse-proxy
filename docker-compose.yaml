@@ -25,12 +25,14 @@ services:
     command:
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
-    # healthcheck:
-    #   test: traefik healthcheck --ping
-    #   interval: 30s
-    #   timeout: 30s
-    #   retries: 3
-      # start_period: 30s
+    healthcheck:
+      disable: true
+      test: ["CMD", "curl", "--fail", "http://reverse-proxy:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
     labels:
       - diun.enable=true
       - traefik.enable=true
@@ -101,11 +103,12 @@ services:
     volumes:
       - ${USER_DIR}/authelia/config:/config
     healthcheck:
-      test: curl --fail http://localhost:9091/ || exit 1
+      test: ["CMD", "curl", "--fail", "http://authelia:9091"]
       interval: 30s
-      timeout: 30s
+      timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 10s
+      start_interval: 5s
     labels:
       - diun.enable=true
       - traefik.enable=true
@@ -117,9 +120,11 @@ services:
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   oauth:
     image: thomseddon/traefik-forward-auth:2.2.0@sha256:e875194d67e21c077f3de0b9d315bb3023a226f2cac81ddd9d02a4250ed89b4b
-    # image: thomseddon/traefik-forward-auth:2.1-arm # Use this image with Raspberry Pi
+    # Use this image with Raspberry Pi
+    #image: thomseddon/traefik-forward-auth:2.2.0-arm@sha256:cae50f640307be70bb0024521fe4dd81df420e704fb2381c727cd98e8b319a94
     container_name: oauth
     restart: unless-stopped
+    profiles: google
     cpus: 0.1
     mem_limit: 64m
     user: ${UID}:${GID}
@@ -133,7 +138,6 @@ services:
       - INSECURE_COOKIE=false
       - AUTH_HOST=oauth.${DOMAIN_NAME}
       - URL_PATH=/_oauth
-      # - WHITELIST=${MY_EMAIL}
       - WHITELIST=${CLOUDFLARE_EMAIL}
       - LOG_LEVEL=warn
       - LOG_FORMAT=text

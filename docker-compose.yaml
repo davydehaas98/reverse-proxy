@@ -72,7 +72,7 @@ services:
     # user: ${UID}:${GID}
     environment:
       - TZ=${TZ}
-      - TRAEFIK_VERSION=3
+      - TRAEFIK_VERSION=2
       - CF_EMAIL=${CLOUDFLARE_EMAIL} # Same as traefik
       - CF_TOKEN=${CLOUDFLARE_API_KEY} # Same as traefik
       - DEFAULT_TTL=1
@@ -103,7 +103,7 @@ services:
     volumes:
       - ${USER_DIR}/authelia/config:/config
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://authelia:9091"]
+      test: ["CMD", "curl", "--fail", "http://authelia:9091/api/state"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -64,7 +64,7 @@ services:
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
-    image: ghcr.io/tiredofit/traefik-cloudflare-companion:7.3.2@sha256:716a265a69f5f75ddbb089c19fe8e4b52cfd891f1dd426fe0e525a3ddf941ac8
+    image: ghcr.io/tiredofit/docker-traefik-cloudflare-companion:7.3.2
     container_name: cf-companion
     restart: unless-stopped
     cpus: 0.1

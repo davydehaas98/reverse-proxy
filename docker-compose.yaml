@@ -124,7 +124,7 @@ services:
     #image: thomseddon/traefik-forward-auth:2.2.0-arm@sha256:cae50f640307be70bb0024521fe4dd81df420e704fb2381c727cd98e8b319a94
     container_name: oauth
     restart: unless-stopped
-    profiles: google
+    profiles: [google]
     cpus: 0.1
     mem_limit: 64m
     user: ${UID}:${GID}

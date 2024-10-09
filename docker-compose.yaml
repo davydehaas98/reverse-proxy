@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
     cpus: 0.01
     mem_limit: 16m
-    user: ${UID}:${GID}
+    # user: ${UID}:${GID}
     environment:
       - API_KEY=${CLOUDFLARE_API_TOKEN}
       - ZONE=${DOMAIN_NAME}
@@ -69,7 +69,7 @@ services:
     restart: unless-stopped
     cpus: 0.01
     mem_limit: 128m
-    user: ${UID}:${GID}
+    # user: ${UID}:${GID}
     environment:
       - TZ=${TZ}
       - TRAEFIK_VERSION=2

@@ -48,6 +48,8 @@ services:
       - traefik.http.routers.traefik.tls.domains[0].main=${DOMAIN_NAME}
       - traefik.http.routers.traefik.tls.domains[0].sans=*.${DOMAIN_NAME}
       - traefik.http.services.traefik.loadbalancer.server.port=8080
+    networks:
+      - reverse-proxy
 
   # Cloudflare DDNS - Dynamic DNS Updater
   cf-ddns:
@@ -66,6 +68,8 @@ services:
       - DNS_SERVER=1.1.1.1
     labels:
       - diun.enable=true
+    networks:
+      - reverse-proxy
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:
@@ -92,6 +96,8 @@ services:
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
       - traefik.http.routers.cf-companion.rule=HostHeader(`pihole.${DOMAIN_NAME}`,`hassio.${DOMAIN_NAME}`)
+    networks:
+      - reverse-proxy
       
   # Authelia - IAM
   authelia:
@@ -121,6 +127,8 @@ services:
       - traefik.http.routers.authelia.rule=Host(`authelia.${DOMAIN_NAME}`)
       - traefik.http.routers.authelia.middlewares=chain-authelia@file
       - traefik.http.services.authelia.loadbalancer.server.port=9091
+    networks:
+      - reverse-proxy
       
   # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
   oauth:
@@ -156,3 +164,5 @@ services:
       - traefik.http.routers.oauth.rule=Host(`oauth.${DOMAIN_NAME}`)
       - traefik.http.routers.oauth.middlewares=chain-oauth@file
       - traefik.http.services.oauth.loadbalancer.server.port=4181
+    networks:
+      - reverse-proxy

@@ -84,11 +84,11 @@ services:
       - TRAEFIK_VERSION=2
       - CF_EMAIL=${CLOUDFLARE_EMAIL} # Same as traefik
       - CF_TOKEN=${CLOUDFLARE_API_KEY} # Same as traefik
-      - DEFAULT_TTL=1
+      - DEFAULT_TTL=300
       - TARGET_DOMAIN=${DOMAIN_NAME}
       - DOMAIN1=${DOMAIN_NAME}
       - DOMAIN1_ZONE_ID=${CLOUDFLARE_ZONE_ID}
-      - DOMAIN1_PROXIED=false
+      - DOMAIN1_PROXIED=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:

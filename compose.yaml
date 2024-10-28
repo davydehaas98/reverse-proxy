@@ -67,8 +67,6 @@ services:
       - DNS_SERVER=1.1.1.1
     labels:
       - diun.enable=true
-    networks:
-      - reverse-proxy
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
   cf-companion:

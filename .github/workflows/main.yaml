@@ -28,7 +28,7 @@ jobs:
       - name: Copy files
         run: |
           rsync ./compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
-          rsync --archive --recursive  ./traefik/ homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}
+          rsync --archive --recursive  ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}
       - name: Start containers
         run: |
           ssh homelab@${{ secrets.SSH_HOST }} /bin/bash << ENDSSH

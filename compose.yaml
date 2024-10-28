@@ -92,9 +92,9 @@ services:
       - diun.enable=true
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
-      - traefik.http.routers.cf-companion.rule=Host(`pihole.${DOMAIN_NAME}`) || Host(`hassio.${DOMAIN_NAME}`)
-    networks:
-      - reverse-proxy
+    #   - traefik.http.routers.cf-companion.rule=Host(`pihole.${DOMAIN_NAME}`) || Host(`hassio.${DOMAIN_NAME}`)
+    # networks:
+    #   - reverse-proxy
       
   # Authelia - IAM
   authelia:

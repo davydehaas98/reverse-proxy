@@ -26,7 +26,7 @@ services:
     volumes:
       - ${USER_DIR}/traefik/letsencrypt:/letsencrypt
       - ${USER_DIR}/traefik:/etc/traefik:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     command:
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
     healthcheck:
@@ -94,7 +94,7 @@ services:
       - diun.enable=true
       # Add hosts specified in rules here to force cf-companion to create the CNAMEs
       # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
-      - traefik.http.routers.cf-companion.rule=Host(`pihole.${DOMAIN_NAME}`) || Host(``hassio.${DOMAIN_NAME}`)
+      - traefik.http.routers.cf-companion.rule=Host(`pihole.${DOMAIN_NAME}`) || Host(`hassio.${DOMAIN_NAME}`)
     networks:
       - reverse-proxy
       

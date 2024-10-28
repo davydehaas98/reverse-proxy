@@ -25,11 +25,11 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-      - name: SSH SCP | Copy files
+      - name: Copy files
         run: |
-          scp -o StrictHostKeyChecking=no ./compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
-          scp -o StrictHostKeyChecking=no -r ./traefik homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}
-      - name: SSH | Start containers
+          rsync ./compose.yaml homelab@${{ secrets.SSH_HOST }}:${{ env.TARGET_DIR }}
+          rsync --delete --recursive ./traefik/ homelab@${{ secrets.SSH_HOST }}:${{ env.USER_DIR }}
+      - name: Start containers
         run: |
           ssh homelab@${{ secrets.SSH_HOST }} /bin/bash << ENDSSH
           cd ${{ env.TARGET_DIR }}

@@ -1,14 +1,14 @@
 # https://www.smarthomebeginner.com/docker-authelia-tutorial/
 server:
-  host: 0.0.0.0
-  port: 9091
+  address: tcp://0.0.0.0:9091/
 log: 
   level: warn
   format: json
 theme: dark
 # https://www.grc.com/passwords.htm
-# jwt_secret: SECRET_GOES_HERE # use docker secret file instead AUTHELIA_JWT_SECRET_FILE
-default_redirection_url: https://authelia.davydehaas.nl
+identity_validation:
+  reset_password:
+    # jwt_secret: SECRET_GOES_HERE # use docker secret file instead AUTHELIA_JWT_SECRET_FILE
 totp:
   issuer: authelia.com
   digits: 6
@@ -48,9 +48,13 @@ session:
   name: authelia_session
   # https://www.grc.com/passwords.htm
   # secret: SECRET_GOES_HERE # use docker secret file instead AUTHELIA_SESSION_SECRET_FILE
-  expiration: 3600 # 1 hour
-  inactivity: 300 # 5 minutes
-  domain: davydehaas.nl # Should match whatever your root protected domain is
+  expiration: 1h
+  inactivity: 5m
+  remember_me: 1M
+  same_site: lax
+  cookies:
+    - domain: davydehaas.nl
+      authelia_url: https://authelia.davydehaas.nl
 regulation:
   max_retries: 3
   find_time: 2m

@@ -105,6 +105,8 @@ services:
     cpus: 4
     mem_limit: 8192m
     user: ${UID}:${GID}
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
     expose:
       - 9091

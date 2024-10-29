@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     cpus: 2
     mem_limit: 4096m
-    # user: ${UID}:${GID}
+    user: ${UID}:${GID}
     security_opt:
       - no-new-privileges:true
     ports:
@@ -24,7 +24,7 @@ services:
     volumes:
       - ${USER_DIR}/traefik/letsencrypt:/letsencrypt
       - ${USER_DIR}/traefik:/etc/traefik:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)

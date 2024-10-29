@@ -53,11 +53,11 @@ certificatesResolvers:
   dns-resolver-cloudflare:
     acme:
       keyType: EC384
-      # storage: /letsencrypt/acme.json
+      storage: /letsencrypt/acme.json
       # LetsEncrypt Staging Server
       # Uncomment both lines below to test
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
-      storage: /letsencrypt/acme.staging.json
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      # storage: /letsencrypt/acme.staging.json
       dnsChallenge:
         provider: cloudflare
 entryPoints:

@@ -111,7 +111,7 @@ services:
     networks:
       - reverse-proxy
     volumes:
-      - ${USER_DIR}/authelia/config:/config
+      - ${USER_DIR}/authelia:/config
     environment:
       - TZ=${TZ}
     healthcheck:

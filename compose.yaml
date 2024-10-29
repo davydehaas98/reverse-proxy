@@ -117,6 +117,7 @@ services:
     environment:
       - TZ=${TZ}
     healthcheck:
+      disable: true
       test: ["CMD", "curl", "--fail", "http://authelia:9091/api/state"]
       interval: 30s
       timeout: 10s

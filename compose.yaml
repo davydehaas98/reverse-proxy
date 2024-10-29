@@ -11,10 +11,6 @@ services:
     cpus: 2
     mem_limit: 4096m
     # user: ${UID}:${GID}
-    environment:
-      - TZ=${TZ}
-      - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
-      - CF_API_KEY=${CLOUDFLARE_API_KEY}
     security_opt:
       - no-new-privileges:true
     ports:
@@ -23,6 +19,8 @@ services:
       - 8080:8080
       - 3179:3179/tcp
       - 3179:3179/udp
+    networks:
+      - reverse-proxy
     volumes:
       - ${USER_DIR}/traefik/letsencrypt:/letsencrypt
       - ${USER_DIR}/traefik:/etc/traefik:ro
@@ -30,6 +28,10 @@ services:
     command:
       - --certificatesResolver.dns-resolver-cloudflare.acme.email=${CLOUDFLARE_EMAIL}
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.${DOMAIN_NAME}`)
+    environment:
+      - TZ=${TZ}
+      - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
+      - CF_API_KEY=${CLOUDFLARE_API_KEY}
     healthcheck:
       disable: true
       test: ["CMD", "curl", "--fail", "http://reverse-proxy:8080"]
@@ -48,17 +50,15 @@ services:
       - traefik.http.routers.traefik.tls.domains[0].main=${DOMAIN_NAME}
       - traefik.http.routers.traefik.tls.domains[0].sans=*.${DOMAIN_NAME}
       - traefik.http.services.traefik.loadbalancer.server.port=8080
-    networks:
-      - reverse-proxy
 
   # Cloudflare DDNS - Dynamic DNS Updater
-  cf-ddns:
+  cloudflare-ddns:
     image: oznu/cloudflare-ddns:latest@sha256:19bd73d8aea9641dc329ec18ae693b2b9c33ff7cdc007f368266ce584446f995
-    container_name: cf-ddns
-    restart: unless-stopped
+    container_name: cloudflare-ddns
     cpus: 0.1
     mem_limit: 128m
     # user: ${UID}:${GID}
+    restart: unless-stopped
     environment:
       - API_KEY=${CLOUDFLARE_API_TOKEN}
       - ZONE=${DOMAIN_NAME}
@@ -70,13 +70,15 @@ services:
       - diun.enable=true
       
   # Cloudflare-Companion - Automatic CNAME DNS Creation
-  cf-companion:
+  cloudflare-companion:
     image: ghcr.io/tiredofit/docker-traefik-cloudflare-companion:7.3.2@sha256:716a265a69f5f75ddbb089c19fe8e4b52cfd891f1dd426fe0e525a3ddf941ac8
-    container_name: cf-companion
-    restart: unless-stopped
+    container_name: cloudflare-companion
     cpus: 0.1
     mem_limit: 128m
+    restart: unless-stopped
     # user: ${UID}:${GID}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - TZ=${TZ}
       - TRAEFIK_VERSION=2
@@ -87,13 +89,11 @@ services:
       - DOMAIN1=${DOMAIN_NAME}
       - DOMAIN1_ZONE_ID=${CLOUDFLARE_ZONE_ID}
       - DOMAIN1_PROXIED=true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - diun.enable=true
-      # Add hosts specified in rules here to force cf-companion to create the CNAMEs
-      # Since cf-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
-    #   - traefik.http.routers.cf-companion.rule=Host(`pihole.${DOMAIN_NAME}`) || Host(`hassio.${DOMAIN_NAME}`)
+      # Add hosts specified in rules here to force cloudflare-companion to create the CNAMEs
+      # Since cloudflare-companion creates CNAMEs based on host rules, this a workaround for non-docker/external apps
+    #   - traefik.http.routers.cloudflare-companion.rule=Host(`pihole.${DOMAIN_NAME}`) || Host(`hassio.${DOMAIN_NAME}`)
     # networks:
     #   - reverse-proxy
       
@@ -101,16 +101,18 @@ services:
   authelia:
     image: ghcr.io/authelia/authelia:4.38.16@sha256:172c9b2e4d7c25196404e4620f6018650cbd2124999aceaa812cf0c100ef8b23
     container_name: authelia
-    restart: unless-stopped
     cpus: 4
     mem_limit: 8192m
     user: ${UID}:${GID}
-    environment:
-      - TZ=${TZ}
+    restart: unless-stopped
     expose:
       - 9091
+    networks:
+      - reverse-proxy
     volumes:
       - ${USER_DIR}/authelia/config:/config
+    environment:
+      - TZ=${TZ}
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://authelia:9091/api/state"]
       interval: 30s
@@ -125,42 +127,3 @@ services:
       - traefik.http.routers.authelia.rule=Host(`authelia.${DOMAIN_NAME}`)
       - traefik.http.routers.authelia.middlewares=chain-authelia@file
       - traefik.http.services.authelia.loadbalancer.server.port=9091
-    networks:
-      - reverse-proxy
-      
-  # Google OAuth - Single Sign On using OAuth 2.0 for Traefik 2.2
-  oauth:
-    image: thomseddon/traefik-forward-auth:2.2.0@sha256:e875194d67e21c077f3de0b9d315bb3023a226f2cac81ddd9d02a4250ed89b4b
-    # Use this image with Raspberry Pi
-    #image: thomseddon/traefik-forward-auth:2.2.0-arm@sha256:cae50f640307be70bb0024521fe4dd81df420e704fb2381c727cd98e8b319a94
-    container_name: oauth
-    restart: unless-stopped
-    profiles: [google]
-    cpus: 0.1
-    mem_limit: 64m
-    user: ${UID}:${GID}
-    security_opt:
-      - no-new-privileges:true
-    environment:
-      - CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-      - SECRET=${OAUTH_SECRET}
-      - COOKIE_DOMAIN=${DOMAIN_NAME}
-      - INSECURE_COOKIE=false
-      - AUTH_HOST=oauth.${DOMAIN_NAME}
-      - URL_PATH=/_oauth
-      - WHITELIST=${CLOUDFLARE_EMAIL}
-      - LOG_LEVEL=warn
-      - LOG_FORMAT=text
-      - LIFETIME=2592000 # 30 days
-      - DEFAULT_ACTION=auth
-      - DEFAULT_PROVIDER=google
-    labels:
-      - diun.enable=true
-      - traefik.enable=true
-      - traefik.http.routers.oauth.entrypoints=websecure
-      - traefik.http.routers.oauth.rule=Host(`oauth.${DOMAIN_NAME}`)
-      - traefik.http.routers.oauth.middlewares=chain-oauth@file
-      - traefik.http.services.oauth.loadbalancer.server.port=4181
-    networks:
-      - reverse-proxy

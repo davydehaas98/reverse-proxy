@@ -14,7 +14,11 @@ tls:
         - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
       curvePreferences:
         - CurveP521
-        - CurveP384
+        - CurveP384      
+      alpnProtocols:
+        - http/2
+        - http/3
+        - h2
       #SniStrict: true
     mintls13:
       minVersion: VersionTLS13

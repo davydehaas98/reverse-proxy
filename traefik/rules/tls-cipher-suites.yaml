@@ -15,8 +15,4 @@ tls:
       curvePreferences:
         - CurveP521
         - CurveP384
-      alpnProtocols:
-        - http/2
-        - http/3
-        - h2
       sniStrict: true

@@ -29,24 +29,19 @@ metrics:
       - 0.3
       - 1.2
       - 5.0
-# tracing:
-#   jaeger:
-#     samplingType: const
-#     samplingParam: 1.0
-#     gen128Bit: true
-#     samplingServerURL: http://jaeger:5778/sampling
-#     localAgentHostPort: jaeger:6831
-#     propagation: jaeger
 accessLog:
   filePath: /access.log
+  addInternals: true
   bufferingSize: 100
   filters:
-    statuscodes: 400-499
+    statusCodes:
+      - "200"
+      - "300-302"
     retryAttempts: true
-    minDuration: 10ms
-# log:
-#   filePath: /traefik.log
-#   level: WARN
+    minDuration: "10ms"
+log:
+  filePath: /traefik.log
+  level: DEBUG
 serversTransport:
   insecureSkipVerify: true
 certificatesResolvers:
